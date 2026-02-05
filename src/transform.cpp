@@ -22,7 +22,17 @@ Image imageManipulate(Image* myImage, ImageType imageType)
 	int newWidth{};
 	int newHeight{};
 
-	if (imageType == IMAGE_AS_ICON) {
+	if (imageType == IMAGE_AS_TITLE) {
+		maxWidth = ga.myBgTexture.width / 2.0f;
+		maxHeight = ga.myBgTexture.height / 2.0f;
+		scaleX = maxWidth / Width;
+		scaleY = maxHeight / Height;
+		scale = std::min(scaleX, scaleY);
+
+		newWidth = static_cast<int>(Width * scale);
+		newHeight = static_cast<int>(Height * scale);
+	}
+	else if (imageType == IMAGE_AS_ICON) {
 		maxWidth = ga.myBgTexture.width / 5.0f;
 		maxHeight = ga.myBgTexture.height / 5.0f;
 		scaleX = maxWidth / Width;
@@ -118,6 +128,11 @@ void transformTextures()
 			// BG and BG Overlay
 			textureTransform(ga.myBgImage, ga.myBgTexture, IMAGE_AS_BG);
 			textureTransform(ga.myBgImageOverlay, ga.myBgTextureOverlay, IMAGE_AS_BG_OVERLAY);
+			textureTransform(ga.myBgBorder[0], ga.myBgBorderTexture[0], IMAGE_AS_BG);
+			textureTransform(ga.myBgBorder[1], ga.myBgBorderTexture[1], IMAGE_AS_BG);
+
+			// Title
+			textureTransform(ga.myTitle, ga.myTitleTexture, IMAGE_AS_TITLE);
 
 			// The built-in puzzle images
 			textureTransform(ga.puzzleImage1, ga.puzzleImage1Texture, IMAGE_AS_ICON);
@@ -130,17 +145,41 @@ void transformTextures()
 			textureTransform(ga.puzImg1Txt, ga.puzImg1Txt_texture, IMAGE_AS_ICON);
 			textureTransform(ga.puzImg2Txt, ga.puzImg2Txt_texture, IMAGE_AS_ICON);
 			textureTransform(ga.puzImg3Txt, ga.puzImg3Txt_texture, IMAGE_AS_ICON);
+			// Slice Image Scene
+			textureTransform(ga.txt_SliceImage, ga.txt_SliceImage_texture, IMAGE_AS_ICON);
+			// Pause Scene
+			textureTransform(ga.txt_Paused, ga.txt_Paused_texture, IMAGE_AS_ICON);
+
+
+			// ==================================================================================
+
 
 			// Buttons
+			// Menu Scene
 			gA::playButton.scaled(ga.myBgTexture.width, ga.myBgTexture.height, LARGE);
 			gA::exitButton.scaled(ga.myBgTexture.width, ga.myBgTexture.height, LARGE);
+			gA::musicButton.scaled(ga.myBgTexture.width, ga.myBgTexture.height, SMALL);
+			gA::soundButton.scaled(ga.myBgTexture.width, ga.myBgTexture.height, SMALL);
 
+			// Choose Image Scene
 			gA::backButton.scaled(ga.myBgTexture.width, ga.myBgTexture.height, MEDIUM);
 			gA::folderButton.scaled(ga.myBgTexture.width, ga.myBgTexture.height, MEDIUM);
 
+			// Slice Image Scene
 			gA::plusButton.scaled(ga.myBgTexture.width, ga.myBgTexture.height, SMALL);
 			gA::subButton.scaled(ga.myBgTexture.width, ga.myBgTexture.height, SMALL);
 			gA::startButton.scaled(ga.myBgTexture.width, ga.myBgTexture.height, MEDIUM);
+
+			// Begin Play Scene
+			gA::pauseButton.scaled(ga.myBgTexture.width, ga.myBgTexture.height, SMALL);
+			gA::hint1.scaled(ga.myBgTexture.width, ga.myBgTexture.height, SMALL);
+
+			// Pause Scene
+			gA::resumeButton.scaled(ga.myBgTexture.width, ga.myBgTexture.height, LARGE);
+			gA::menuButton.scaled(ga.myBgTexture.width, ga.myBgTexture.height, LARGE);
+
+			// Win Scene
+			gA::retryButton.scaled(ga.myBgTexture.width, ga.myBgTexture.height, LARGE);
 
 			// Then assign to current window resolution
 			gc.currentWindowWidth = GetScreenWidth();

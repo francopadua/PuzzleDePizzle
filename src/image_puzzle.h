@@ -19,6 +19,30 @@ namespace Puzzle
     extern int gridSize;     // number of columns/rows
     extern int blankIndex; // current blank position (signed int!)
 
+	extern int move;        // number of moves taken
+
+    namespace Timer
+    {
+        // The labels
+	    extern const char* timerLabel;
+	    extern Vector2 timerLabelSize;
+	    extern const char* moveLabel;
+	    extern Vector2 moveLabelSize;
+
+        // The timer
+	    extern float elapsedTime;
+	    extern int totalSeconds;
+	    extern int seconds;
+	    extern int minutes;
+	    extern int hours;
+
+        const char* get();
+    }
+
+    // Completed puzzle
+    inline bool solved;
+
+    // Load initial puzzle
 	void loadPuzzle(const Image& puzImage, const std::vector<Rectangle>& rec);
 
     // helpers
@@ -27,6 +51,13 @@ namespace Puzzle
 
     // call after loading & randomizing textures
     void finalizeLoad(); 
+
+    // Check the puzzle
+    void check();
+    inline bool isSolved() { return solved; }
+
+    // destroy the puzzle
+    void destroy();
 
     // movement
     bool tryMove(int dr, int dc); // dr = -1..1, dc = -1..1

@@ -21,7 +21,7 @@
     <ClCompile Include="src\image_slice.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\FileDialog\tinyfiledialogs.c">
+    <ClCompile Include="src\FileDialog\tinyfiledialogs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Button.cpp">
@@ -43,6 +43,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\image_puzzle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\user_controls.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ToggleButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FileDialog\tinyfiledialogs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -122,6 +134,45 @@
     <Image Include="Resources\Images\sub_up.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Resources\Images\pause_button_down.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\Images\pause_button_up.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\Images\menu_button_down.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\Images\menu_button_up.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\Images\res_button_down.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\Images\res_button_up.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\Images\wood_border.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\Images\retry_button_down.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\Images\retry_button_up.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\Images\title.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\Images\tog_h1_disabled.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\Images\tog_h1_down.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\Images\tog_h1_up.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\image_slice.h">
@@ -151,9 +202,27 @@
     <ClInclude Include="src\image_puzzle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\user_controls.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\animation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ToggleButton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Font Include="Resources\Fonts\The Bomb Sound.ttf" />
     <Font Include="Resources\Font\The Bomb Sound.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Resources\Audio\music1.mp3" />
+    <Media Include="Resources\Audio\music2.mp3" />
+    <Media Include="Resources\Audio\sound1.mp3" />
+    <Media Include="Resources\Audio\sound2.mp3" />
   </ItemGroup>
 </Project>

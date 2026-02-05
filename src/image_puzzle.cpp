@@ -10,6 +10,35 @@ namespace Puzzle
 
 	int gridSize = 0;
 	int blankIndex = -1;
+
+	int move = 0;
+}
+
+namespace Puzzle::Timer
+{
+    // The labels
+	const char* timerLabel = "Timer: ";
+    Vector2 timerLabelSize{};
+	const char* moveLabel = "Moves: ";
+	Vector2 moveLabelSize{};
+
+    // The timer
+	float elapsedTime = 0.0f;
+	int totalSeconds = 0;
+    int seconds = 0;
+	int minutes = 0;
+	int hours = 0;
+
+    const char* get() {
+        seconds = totalSeconds % 60;
+	    minutes = (totalSeconds % 3600) / 60;
+	    hours = totalSeconds / 3600;
+        if (hours > 0)
+            return TextFormat("%d:%02d:%02d", hours, minutes, seconds);
+        if (minutes > 0)
+            return TextFormat("%02d:%02d", minutes, seconds);
+        return TextFormat("%02d", seconds);
+    }
 }
 
 void theImagePuzzle(Image& myPuzzleImage, const Image& myImageChoosen, Texture& myPuzzleTexture)
@@ -103,6 +132,40 @@ void Puzzle::finalizeLoad()
     }
     gridSize = n;
     blankIndex = total - 1; // last tile initially blank (matches your randomize)
+
+    // Label
+	Timer::timerLabelSize = MeasureTextEx(ga.myFontSmall, Timer::timerLabel, fontSizeSmall, fontSpacing);
+    Timer::moveLabelSize = MeasureTextEx(ga.myFontSmall, Timer::moveLabel, fontSizeSmall, fontSpacing);
+}
+
+// Check puzzle state
+void Puzzle::check()
+{
+    for (int i{ 1 }; i < puz_guide.size(); ++i) {
+        if (i != puz_guide[i - 1]) {
+            solved = false;
+            return;
+        }
+    }
+    solved = true;
+}
+
+// Destroy puzzle
+void Puzzle::destroy()
+{
+    for (auto& tex : puzzleTexture)
+        UnloadTexture(tex);
+    for (auto& tex : txtTemp)
+        UnloadTexture(tex);
+
+    puzzleTexture.clear();
+    txtTemp.clear();
+    arrGrid.clear();
+    puz_guide.clear();
+
+    Puzzle::Timer::elapsedTime = 0.0f;
+    Puzzle::Timer::totalSeconds = 0;
+    Puzzle::move = 0;
 }
 
 bool Puzzle::tryMove(int dr, int dc)

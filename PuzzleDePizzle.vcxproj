@@ -122,23 +122,27 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\animation.cpp" />
     <ClCompile Include="src\assets.cpp" />
     <ClCompile Include="src\Button.cpp" />
     <ClCompile Include="src\config.cpp" />
-    <ClCompile Include="src\FileDialog\tinyfiledialogs.c" />
+    <ClCompile Include="src\FileDialog\tinyfiledialogs.cpp" />
     <ClCompile Include="src\image_puzzle.cpp" />
     <ClCompile Include="src\image_slice.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\scene_management.cpp" />
     <ClCompile Include="src\texture_location.cpp" />
+    <ClCompile Include="src\ToggleButton.cpp" />
     <ClCompile Include="src\transform.cpp" />
+    <ClCompile Include="src\user_controls.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\Images\back_button_down.png" />
@@ -152,22 +156,36 @@
     <Image Include="Resources\Images\folder_up.png" />
     <Image Include="Resources\Images\jerry.jpg" />
     <Image Include="Resources\Images\mayon.jpg" />
+    <Image Include="Resources\Images\menu_button_down.png" />
+    <Image Include="Resources\Images\menu_button_up.png" />
+    <Image Include="Resources\Images\pause_button_down.png" />
+    <Image Include="Resources\Images\pause_button_up.png" />
     <Image Include="Resources\Images\play_button_down.png" />
     <Image Include="Resources\Images\play_button_up.png" />
     <Image Include="Resources\Images\plus_down.png" />
     <Image Include="Resources\Images\plus_up.png" />
+    <Image Include="Resources\Images\res_button_down.png" />
+    <Image Include="Resources\Images\res_button_up.png" />
+    <Image Include="Resources\Images\retry_button_down.png" />
+    <Image Include="Resources\Images\retry_button_up.png" />
     <Image Include="Resources\Images\start_button_down.png" />
     <Image Include="Resources\Images\start_button_up.png" />
     <Image Include="Resources\Images\sub_down.png" />
     <Image Include="Resources\Images\sub_up.png" />
+    <Image Include="Resources\Images\title.png" />
     <Image Include="Resources\Images\tog_aud_disabled.png" />
     <Image Include="Resources\Images\tog_aud_down.png" />
     <Image Include="Resources\Images\tog_aud_up.png" />
+    <Image Include="Resources\Images\tog_h1_disabled.png" />
+    <Image Include="Resources\Images\tog_h1_down.png" />
+    <Image Include="Resources\Images\tog_h1_up.png" />
     <Image Include="Resources\Images\tog_music_disabled.png" />
     <Image Include="Resources\Images\tog_music_down.png" />
     <Image Include="Resources\Images\tog_music_up.png" />
+    <Image Include="Resources\Images\wood_border.png" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\animation.h" />
     <ClInclude Include="src\assets.h" />
     <ClInclude Include="src\Button.h" />
     <ClInclude Include="src\config.h" />
@@ -176,13 +194,31 @@
     <ClInclude Include="src\image_slice.h" />
     <ClInclude Include="src\scene_management.h" />
     <ClInclude Include="src\texture_location.h" />
+    <ClInclude Include="src\ToggleButton.h" />
     <ClInclude Include="src\transform.h" />
+    <ClInclude Include="src\user_controls.h" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="Resources\Fonts\The Bomb Sound.ttf" />
     <Font Include="Resources\Font\The Bomb Sound.ttf" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Resources\Audio\music1.mp3" />
+    <Media Include="Resources\Audio\music2.mp3" />
+    <Media Include="Resources\Audio\sound1.mp3" />
+    <Media Include="Resources\Audio\sound2.mp3" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="packages\raylib.5.5.0\build\native\raylib.targets" Condition="Exists('packages\raylib.5.5.0\build\native\raylib.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\raylib.5.5.0\build\native\raylib.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\raylib.5.5.0\build\native\raylib.targets'))" />
+  </Target>
 </Project>

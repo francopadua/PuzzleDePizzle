@@ -2,6 +2,9 @@
 
 void Button::load(Image imageButtonUp, Image imageButtonDown, ButtonSize scale)
 {
+	unloadImage();
+	unloadTexture();
+
 	m_buttonUpImage = imageButtonUp;
 	m_buttonDownImage = imageButtonDown;
 	m_scale = scale;
@@ -25,8 +28,10 @@ void Button::unloadTexture()
 	if (m_buttonUpTexture.id != 0) {
 		UnloadTexture(m_buttonUpTexture);
 		UnloadTexture(m_buttonDownTexture);
-		m_buttonUpTexture.id = 0;
-		m_buttonDownTexture.id = 0;
+		//m_buttonUpTexture.id = 0;
+		//m_buttonDownTexture.id = 0;
+		m_buttonUpTexture = {};
+		m_buttonDownTexture = {};
 	}
 }
 
@@ -40,19 +45,42 @@ Button::Button(Image imageButtonUp, Image imageButtonDown, ButtonSize scale)
 }
 
 Button::Button(Button&& other) noexcept
+	: m_buttonUpImage{ other.m_buttonUpImage }
+	, m_buttonDownImage{ other.m_buttonDownImage }
+	, m_buttonUpTexture{ other.m_buttonUpTexture }
+	, m_buttonDownTexture{ other.m_buttonDownTexture }
+	, m_scale{ other.m_scale }
+	, m_position{ other.m_position }
+	, m_doneClick{ other.m_doneClick }
 {
-	*this = std::move(other);
+	other.m_buttonUpImage.data = nullptr;
+	other.m_buttonDownImage.data = nullptr;
+	other.m_buttonUpTexture = {};
+	other.m_buttonDownTexture = {};
 }
 
 Button& Button::operator=(Button&& other) noexcept
 {
 	if (this != &other) {
+		unloadImage();
 		unloadTexture();
+		
+		// Move assign image
+		m_buttonUpImage = other.m_buttonUpImage;
+		m_buttonDownImage = other.m_buttonDownImage;
+
+		// Move assign texture
 		m_buttonUpTexture = other.m_buttonUpTexture;
 		m_buttonDownTexture = other.m_buttonDownTexture;
+
+		// Move assign other members
 		m_scale = other.m_scale;
+		m_position = other.m_position;
 		m_doneClick = other.m_doneClick;
 
+		// Then clear the past
+		other.m_buttonUpImage.data = nullptr;
+		other.m_buttonDownImage.data = nullptr;
 		other.m_buttonUpTexture = {};
 		other.m_buttonDownTexture = {};
 	}
@@ -61,18 +89,9 @@ Button& Button::operator=(Button&& other) noexcept
 
 Button::~Button()
 {
-	std::cout << "Unloaded Button assets!!!!!" << '\n';
+	std::cout << "Unloaded Button asset!" << '\n';
 	unloadImage();
 	unloadTexture();
-}
-
-bool Button::isPressed()
-{
-	if (m_doneClick) {
-		m_doneClick = false;
-		return true;
-	}
-	return false;
 }
 
 Image Button::buttonManipulate(Image* buttonImage, float bgWidth, float bgHeight, ButtonSize buttonSize) 
@@ -80,7 +99,7 @@ Image Button::buttonManipulate(Image* buttonImage, float bgWidth, float bgHeight
 	int Width = buttonImage->width;
 	int Height = buttonImage->height;
 
-	// target size
+	// Target size
 	float maxWidth{};
 	float maxHeight{};
 
@@ -123,24 +142,38 @@ void Button::scaled(float bgWidth, float bgHeight, ButtonSize buttonSize)
 
 void Button::draw(Vector2 position, Vector2 mousePos)
 {
-	// Calculate scaled width/height once
+	// Calculate scaled width/height once (for readability purposes)
 	float scaledWidth = m_buttonUpTexture.width * m_scale;
 	float scaledHeight = m_buttonUpTexture.height * m_scale;
 
-	Rectangle dest = { position.x, position.y, scaledWidth, scaledHeight };
+	// Get the position
+	m_position = position;
+	Rectangle dest = { m_position.x, m_position.y, scaledWidth, scaledHeight };
 	Rectangle source = { 0, 0, static_cast<float>(m_buttonUpTexture.width), static_cast<float>(m_buttonUpTexture.height) };
 
+	// Check collision mouse to the button texture
 	bool isHovered = CheckCollisionPointRec(mousePos, dest);
 
-	if (isHovered && IsMouseButtonReleased(MOUSE_LEFT_BUTTON))	m_doneClick = true;
-
+	// Change texture when the mouse button is down (no function at all)
 	bool isClicked = isHovered && IsMouseButtonDown(MOUSE_LEFT_BUTTON);
 	Texture2D& texture = isClicked ? m_buttonDownTexture : m_buttonUpTexture;
 
 	DrawTexturePro(texture, source, dest, { 0, 0 }, 0.0f, WHITE);
+
+	// This works last, does not affect the button texture, only for functionality purposes 
+	// returns true then button is pressed happened
+	if (isHovered && IsMouseButtonReleased(MOUSE_LEFT_BUTTON))	m_doneClick = true;
 }
 
-void Button::reset()
+// Only one execution to the next functionality 
+// e.g. startButton.isPressed() goes to play scene
+// e.g. folderButton.isPressed opens tinyfiledialog
+// Remember: changing button texture is first executed before this happens
+bool Button::isPressed()
 {
-	m_doneClick = false;
+	if (m_doneClick) {
+		m_doneClick = false;
+		return true;
+	}
+	return false;
 }

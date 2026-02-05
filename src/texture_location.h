@@ -10,6 +10,8 @@ struct TextureLoc
 	Rectangle bg;
 	// Background overlay
 	Rectangle bg_o;
+	// Title
+	Rectangle title;
 
 	// Icons
 	Rectangle icon1;

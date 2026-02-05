@@ -18,6 +18,13 @@ void getShapes()
 		static_cast<float>(ga.myBgTextureOverlay.width),
 		static_cast<float>(ga.myBgTextureOverlay.height)
 	};
+	// Title
+	tl.title = {
+		tl.bg.x + (tl.bg.width / 2.0f) - (ga.myTitleTexture.width / 2.0f),
+		tl.bg.y + (tl.bg.height / 2.0f) - ga.myTitleTexture.height,
+		static_cast<float>(ga.myTitleTexture.width),
+		static_cast<float>(ga.myTitleTexture.height)
+	};
 
 	// Icons
 	tl.icon1 = {

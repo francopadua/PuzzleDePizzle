@@ -1,5 +1,6 @@
 #pragma once
 
+#include "animation.h"
 #include "assets.h"
 #include "image_puzzle.h"
 #include "image_slice.h"

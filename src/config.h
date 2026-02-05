@@ -22,11 +22,14 @@ enum class Scene {
 	BEGIN_PLAY_SCENE,				// Begin playing the puzzle 
 	CHOOSE_IMAGE_SCENE,				// Show scene on choosing image (built-in, custom)
 	CROP_SLICE_IMAGE_SCENE,			// Square, Portrait, Landscape (3x3, 4x4, 5x5, ... 3x4, 3x5, 3x6, ... etc)
+	PAUSE_SCENE,					// Menu and Resume
+	WIN_SCENE						// Solved puzzle scene
 };
 
 enum ImageType {
 	IMAGE_AS_BG,
 	IMAGE_AS_BG_OVERLAY,
+	IMAGE_AS_TITLE,
 	IMAGE_AS_ICON,
 	IMAGE_AS_PUZZLE
 };
@@ -46,6 +49,18 @@ struct Config {
 
 	// For mouse position every frame
 	Vector2 clickLocation;
+
+	// For guide
+	bool draw_guide;
 };
+
+namespace Game
+{
+	inline bool exited;
+	inline bool isExited() { return exited; }
+	extern float frameTime;
+	void updateFrame();
+	inline float getFrame() { return frameTime; }
+}
 
 extern Config gc;

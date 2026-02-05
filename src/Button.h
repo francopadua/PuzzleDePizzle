@@ -12,29 +12,36 @@ enum ButtonSize {
 
 class Button {
 public:
+	// The default
 	Button() = default;
 	Button(Image imageButtonUp, Image imageButtonDown, ButtonSize scale);
 
+	// The rules
+	Button(const Button&) = delete;
+	Button& operator=(const Button&) = delete;
 	Button(Button&& other) noexcept;
 	Button& operator=(Button&& other) noexcept;
+	virtual ~Button();
 
-	~Button();
-
-	void draw(Vector2 position, Vector2 mousePos);
-
-	float getButtonWidth() const { return m_buttonUpTexture.width; }
-	float getButtonHeight() const { return m_buttonUpTexture.height; }
-
-	bool isPressed();
-	Image buttonManipulate(Image* buttonImage, float bgWidth, float bgHeight, ButtonSize buttonSize);
-	void scaled(float bgWidth, float bgHeight, ButtonSize buttonSize);
-
+	// Loading and Unloading
 	void load(Image imageButtonUp, Image imageButtonDown, ButtonSize scale);
-	void unloadImage();
-	void unloadTexture();
-	void reset();
+	virtual void unloadImage();
+	virtual void unloadTexture();
 
-private:
+	// Transform button
+	Image buttonManipulate(Image* buttonImage, float bgWidth, float bgHeight, ButtonSize buttonSize);
+	virtual void scaled(float bgWidth, float bgHeight, ButtonSize buttonSize);
+
+	// The getters
+	virtual float getButtonWidth() const { return m_buttonUpTexture.width; }
+	virtual float getButtonHeight() const { return m_buttonUpTexture.height; }
+	Vector2 getPos() const { return m_position; }
+
+	// Then functionality
+	virtual void draw(Vector2 position, Vector2 mousePos);
+	bool isPressed();
+
+protected:
 	Image m_buttonUpImage{ nullptr };
 	Image m_buttonDownImage{ nullptr };
 	Texture2D m_buttonUpTexture{ 0 };
