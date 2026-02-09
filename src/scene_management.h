@@ -10,4 +10,6 @@
 
 #include <raylib.h>
 
+void sceneMusic(Music& music);
+void sceneSound(Sound& sound);
 void sceneFunctions();

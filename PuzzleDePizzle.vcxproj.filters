@@ -21,9 +21,6 @@
     <ClCompile Include="src\image_slice.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\FileDialog\tinyfiledialogs.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Button.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -92,10 +89,10 @@
     <Image Include="Resources\Images\back_button_down.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\Images\start_button_down.png">
+    <Image Include="Resources\Images\next_button_down.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\Images\start_button_up.png">
+    <Image Include="Resources\Images\next_button_up.png">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Resources\Images\tog_aud_disabled.png">
@@ -173,6 +170,36 @@
     <Image Include="Resources\Images\tog_h1_up.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Resources\Images\tog_h2_disabled.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\Images\tog_h2_down.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\Images\tog_h2_up.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\Images\start_button_down.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\Images\start_button_up.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\Images\prev_button_down.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\Images\prev_button_up.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\Images\Icons\icon1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\Images\Icons\icon2.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\Images\Icons\icon3.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\image_slice.h">
@@ -224,5 +251,8 @@
     <Media Include="Resources\Audio\music2.mp3" />
     <Media Include="Resources\Audio\sound1.mp3" />
     <Media Include="Resources\Audio\sound2.mp3" />
+    <Media Include="Resources\Audio\sound3.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
   </ItemGroup>
 </Project>

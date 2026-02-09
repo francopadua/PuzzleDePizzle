@@ -11,18 +11,31 @@ namespace Puzzle
 	int gridSize = 0;
 	int blankIndex = -1;
 
+}
+
+namespace Puzzle::Counter
+{
+    // Label
+	const char* moveLabel = "Moves: ";
+	Vector2 moveLabelSize{};
+    const char* h1Label = "H1 used: ";
+    Vector2 h1LabelSize{};
+    const char* h2Label = "H2 used: ";
+    Vector2 h2LabelSize{};
+    
+    // Counter
 	int move = 0;
+    int h1 = 0;
+    int h2 = 0;
 }
 
 namespace Puzzle::Timer
 {
-    // The labels
+    // Label
 	const char* timerLabel = "Timer: ";
     Vector2 timerLabelSize{};
-	const char* moveLabel = "Moves: ";
-	Vector2 moveLabelSize{};
 
-    // The timer
+    // Timer
 	float elapsedTime = 0.0f;
 	int totalSeconds = 0;
     int seconds = 0;
@@ -135,7 +148,9 @@ void Puzzle::finalizeLoad()
 
     // Label
 	Timer::timerLabelSize = MeasureTextEx(ga.myFontSmall, Timer::timerLabel, fontSizeSmall, fontSpacing);
-    Timer::moveLabelSize = MeasureTextEx(ga.myFontSmall, Timer::moveLabel, fontSizeSmall, fontSpacing);
+    Counter::moveLabelSize = MeasureTextEx(ga.myFontSmall, Counter::moveLabel, fontSizeSmall, fontSpacing);
+    Counter::h1LabelSize = MeasureTextEx(ga.myFontSmall, Counter::h1Label, fontSizeSmall, fontSpacing);
+    Counter::h2LabelSize = MeasureTextEx(ga.myFontSmall, Counter::h2Label, fontSizeSmall, fontSpacing);
 }
 
 // Check puzzle state
@@ -151,8 +166,8 @@ void Puzzle::check()
 }
 
 // Destroy puzzle
-void Puzzle::destroy()
-{
+void Puzzle::destroy() 
+{ 
     for (auto& tex : puzzleTexture)
         UnloadTexture(tex);
     for (auto& tex : txtTemp)
@@ -163,9 +178,12 @@ void Puzzle::destroy()
     arrGrid.clear();
     puz_guide.clear();
 
-    Puzzle::Timer::elapsedTime = 0.0f;
-    Puzzle::Timer::totalSeconds = 0;
-    Puzzle::move = 0;
+    // Reset puzzle state
+    Timer::elapsedTime = 0.0f;
+    Timer::totalSeconds = 0;
+    Counter::move = 0;
+    Counter::h1 = 0;
+    Counter::h2 = 0;
 }
 
 bool Puzzle::tryMove(int dr, int dc)
@@ -186,5 +204,11 @@ bool Puzzle::tryMove(int dr, int dc)
     std::swap(puz_guide[blankIndex], puz_guide[swapIndex]);
 
     blankIndex = swapIndex;
+
+    // Then make a move count
+    Counter::move++;
+    // With sound
+    sceneSound(ga.slideSound);
+
     return true;
 }

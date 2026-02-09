@@ -23,6 +23,10 @@ struct Assets {
 	Image puzzleImage3;
 	Texture2D puzzleImage3Texture;
 
+	// THE IMAGE PUZZLE
+	Image myPuzzleImage;
+	Texture2D myPuzzleTexture;
+
 	// Font
 	Font myFontLarge;
 	Font myFontSmall;
@@ -46,10 +50,6 @@ struct Assets {
 	Image txt_Paused;
 	Texture2D txt_Paused_texture;
 
-	// THE IMAGE PUZZLE
-	Image myPuzzleImage;
-	Texture2D myPuzzleTexture;
-
 	// ================================================================================
 
 	// Audio
@@ -57,6 +57,7 @@ struct Assets {
 	Music playMusic;
 	Sound solvedSound;
 	Sound slideSound;
+	Sound selectSound;
 };
 
 extern Assets ga;
@@ -83,6 +84,7 @@ namespace gA {
 	// Begin Play Scene
 	extern Button pauseButton;
 	extern ToggleButton hint1;
+	extern ToggleButton hint2;
 
 	// Pause Scene
 	extern Button resumeButton;

@@ -2,6 +2,7 @@
 
 #include "assets.h"
 #include "image_slice.h"
+#include "scene_management.h"
 #include "transform.h"
 #include <numeric>
 #include <random>
@@ -19,17 +20,29 @@ namespace Puzzle
     extern int gridSize;     // number of columns/rows
     extern int blankIndex; // current blank position (signed int!)
 
-	extern int move;        // number of moves taken
+    namespace Counter
+    {
+        // Label
+	    extern const char* moveLabel;
+	    extern Vector2 moveLabelSize;
+        extern const char* h1Label;
+        extern Vector2 h1LabelSize;
+        extern const char* h2Label;
+        extern Vector2 h2LabelSize;
+
+        // Counter
+	    extern int move;        // number of moves taken
+        extern int h1;          // number of hint 1 used
+        extern int h2;          // number of hint 2 used
+    }
 
     namespace Timer
     {
-        // The labels
+        // Label
 	    extern const char* timerLabel;
 	    extern Vector2 timerLabelSize;
-	    extern const char* moveLabel;
-	    extern Vector2 moveLabelSize;
 
-        // The timer
+        // Timer
 	    extern float elapsedTime;
 	    extern int totalSeconds;
 	    extern int seconds;

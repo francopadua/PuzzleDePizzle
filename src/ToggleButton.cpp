@@ -94,10 +94,16 @@ void ToggleButton::update()
 		m_remaining = 0.0f;
 		m_disabled = false;
 		m_toggled = m_disabled;
-		FadeState::Reset();
 	}
 	else
 		m_disabled = true;
+}
+
+void ToggleButton::reset()
+{
+	m_remaining = 0.0f;
+	m_disabled = false;
+	m_toggled = m_disabled;
 }
 
 void ToggleButton::handleInput()
@@ -142,6 +148,7 @@ void ToggleButton::draw(Vector2 position, Vector2 mousePos)
 	// This works last, does not affect the button texture, only for functionality purposes 
 	// returns true then button is pressed happened
 	if (isHovered && IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
+		m_doneClick = true;
 		m_toggled = !m_toggled;
 	}
 }

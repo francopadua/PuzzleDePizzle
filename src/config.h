@@ -34,6 +34,12 @@ enum ImageType {
 	IMAGE_AS_PUZZLE
 };
 
+enum DrawType {
+	TEXT,
+	TEXTURE,
+	RECTANGLE
+};
+
 struct Config {
 	// For updating window size
 	int currentWindowWidth;

@@ -13,7 +13,9 @@ namespace Delay
 namespace FadeState
 {
 	float alpha = 0.0f;
-	float alphaOut = 1.0f;
+	float alphaOutText = 1.0f;
+	float alphaOutTexture = 0.9f;
+	float alphaOutRec = 1.0f;
 	float fadeSpeed = 1.0f;
 }
 
@@ -32,15 +34,31 @@ void FadeState::Update()
 	alpha += fadeSpeed * Game::getFrame();
 	if (alpha > 1.0f) alpha = 1.0f;
 }
-void FadeState::Out()
+void FadeState::Out(int seconds, DrawType drawType)
 {
-	alphaOut -= (fadeSpeed / 14) * Game::getFrame();
-	if (alphaOut < 0.0f) alphaOut = 0.0f;
+	if (drawType == TEXT) {
+		if (seconds <= 0)	return;
+		alphaOutText -= (fadeSpeed / seconds) * Game::getFrame();
+		if (alphaOutText < 0.0f) alphaOutText = 0.0f;
+	}
+
+	if (drawType == TEXTURE) {
+		if (seconds <= 0)	return;
+		alphaOutTexture -= (fadeSpeed / seconds) * Game::getFrame();
+		if (alphaOutTexture < 0.0f) alphaOutTexture = 0.0f;
+	}
+
+	if (drawType == RECTANGLE) {
+		if (seconds <= 0)	return;
+		alphaOutRec -= (fadeSpeed / seconds) * Game::getFrame();
+		if (alphaOutRec < 0.0f) alphaOutRec = 0.0f;
+	}
 }
 void FadeState::Reset()
 {
 	alpha = 0.0f;
-	alphaOut = 1.0f;
+	alphaOutText = 1.0f;
+	alphaOutTexture = 0.9f;
 }
 
 Color FadeState::getTint(Color tint)
@@ -49,8 +67,14 @@ Color FadeState::getTint(Color tint)
 	return tint;
 }
 
-Color FadeState::tintOut(Color tint)
+Color FadeState::tintOut(Color tint, DrawType drawType)
 {
-	tint.a = (unsigned char)(alphaOut * 255);
+	if (drawType == TEXT)
+		tint.a = (unsigned char)(alphaOutText * 255);
+	if (drawType == TEXTURE)
+		tint.a = (unsigned char)(alphaOutTexture * 255);
+	if (drawType == RECTANGLE)
+		tint.a = (unsigned char)(alphaOutRec * 255);
+
 	return tint;
 }

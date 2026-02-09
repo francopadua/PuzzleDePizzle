@@ -24,6 +24,7 @@ namespace gA {
 	// Begin Play Scene
 	Button pauseButton;
 	ToggleButton hint1;
+	ToggleButton hint2;
 
 	// Pause Scene
 	Button resumeButton;
@@ -55,26 +56,31 @@ void LoadAssets()
 	ga.myTitleTexture = LoadTextureFromImage(ga.myTitle);
 
 	// Built-in puzzle image
-	ga.puzzleImage1 = LoadImage("Resources/Images/bertface.png");
+	ga.puzzleImage1 = LoadImage("Resources/Images/Icons/icon1.png");
 	ga.puzzleImage1Texture = LoadTextureFromImage(ga.puzzleImage1);
-	ga.puzzleImage2 = LoadImage("Resources/Images/jerry.jpg");
+	ga.puzzleImage2 = LoadImage("Resources/Images/Icons/icon2.png");
 	ga.puzzleImage2Texture = LoadTextureFromImage(ga.puzzleImage2);
-	ga.puzzleImage3 = LoadImage("Resources/Images/mayon.jpg");
+	ga.puzzleImage3 = LoadImage("Resources/Images/Icons/icon3.png");
 	ga.puzzleImage3Texture = LoadTextureFromImage(ga.puzzleImage3);
+
+	// THE IMAGE PUZZLE
+	ga.myPuzzleImage;
+	ga.myPuzzleTexture;
 
 	// Font
 	ga.myFontLarge = LoadFontEx("Resources/Font/The Bomb Sound.ttf", fontSizeLarge, nullptr, 0);
-	ga.myFontSmall = LoadFontEx("Resources/Font/The Bomb Sound.ttf", fontSizeSmall, nullptr, 0);
+	//ga.myFontSmall = LoadFontEx("Resources/Font/The Bomb Sound.ttf", fontSizeSmall, nullptr, 0);
+	ga.myFontSmall = LoadFont("Resources/Font/The Bomb Sound.ttf");
 
 	// Text to Image
 	// Choose Image Scene
 	ga.txt_ChooseImage = ImageTextEx(ga.myFontLarge, "Choose Image", fontSizeLarge, fontSpacing, BLACK);
 	ga.txt_ChooseImage_texture = LoadTextureFromImage(ga.txt_ChooseImage);
-	ga.puzImg1Txt = ImageTextEx(ga.myFontLarge, "Bert Face", fontSizeLarge, fontSpacing, BLACK);
+	ga.puzImg1Txt = ImageTextEx(ga.myFontLarge, "Ray of Colors", fontSizeLarge, fontSpacing, BLACK);
 	ga.puzImg1Txt_texture = LoadTextureFromImage(ga.puzImg1Txt);
-	ga.puzImg2Txt = ImageTextEx(ga.myFontLarge, "High Jerry", fontSizeLarge, fontSpacing, BLACK);
+	ga.puzImg2Txt = ImageTextEx(ga.myFontLarge, "Rubber Tangle", fontSizeLarge, fontSpacing, BLACK);
 	ga.puzImg2Txt_texture = LoadTextureFromImage(ga.puzImg2Txt);
-	ga.puzImg3Txt = ImageTextEx(ga.myFontLarge, "Mayon", fontSizeLarge, fontSpacing, BLACK);
+	ga.puzImg3Txt = ImageTextEx(ga.myFontLarge, "Inline Pipes", fontSizeLarge, fontSpacing, BLACK);
 	ga.puzImg3Txt_texture = LoadTextureFromImage(ga.puzImg3Txt);
 
 	// Slice Image Scene
@@ -85,9 +91,6 @@ void LoadAssets()
 	ga.txt_Paused = ImageTextEx(ga.myFontLarge, "Paused", fontSizeLarge, fontSpacing, BLACK);
 	ga.txt_Paused_texture = LoadTextureFromImage(ga.txt_Paused);
 
-	// THE IMAGE PUZZLE
-	ga.myPuzzleImage;
-	ga.myPuzzleTexture;
 
 	// ================================================================================
 
@@ -96,6 +99,7 @@ void LoadAssets()
 	ga.playMusic = LoadMusicStream("Resources/Audio/music2.mp3");
 	ga.solvedSound = LoadSound("Resources/Audio/sound1.mp3");
 	ga.slideSound = LoadSound("Resources/Audio/sound2.mp3");
+	ga.selectSound = LoadSound("Resources/Audio/sound3.wav");
 }
 
 void gA::LoadClassedAssets()
@@ -117,7 +121,8 @@ void gA::LoadClassedAssets()
 
 	// Begin Play Scene
 	pauseButton.load(LoadImage("Resources/Images/pause_button_up.png"), LoadImage("Resources/Images/pause_button_down.png"), MEDIUM);
-	hint1.load(LoadImage("Resources/Images/tog_h1_up.png"), LoadImage("Resources/Images/tog_h1_down.png"), LoadImage("Resources/Images/tog_h1_disabled.png"), MEDIUM, true, 60.0f);
+	hint1.load(LoadImage("Resources/Images/tog_h1_up.png"), LoadImage("Resources/Images/tog_h1_down.png"), LoadImage("Resources/Images/tog_h1_disabled.png"), MEDIUM, true, 120.0f);
+	hint2.load(LoadImage("Resources/Images/tog_h2_up.png"), LoadImage("Resources/Images/tog_h2_down.png"), LoadImage("Resources/Images/tog_h2_disabled.png"), MEDIUM, true, 30.0f);
 
 	// Pause Scene
 	resumeButton.load(LoadImage("Resources/Images/res_button_up.png"), LoadImage("Resources/Images/res_button_down.png"), MEDIUM);
@@ -183,6 +188,7 @@ void UnloadAssets()
 	UnloadMusicStream(ga.playMusic);
 	UnloadSound(ga.solvedSound);
 	UnloadSound(ga.slideSound);
+	UnloadSound(ga.selectSound);
 
 
 	// ==================================================
@@ -218,6 +224,8 @@ void UnloadAssets()
 	gA::pauseButton.unloadTexture();
 	gA::hint1.unloadImage();
 	gA::hint1.unloadTexture();
+	gA::hint2.unloadImage();
+	gA::hint2.unloadTexture();
 
 	// Pause Scene
 	gA::resumeButton.unloadImage();

@@ -173,6 +173,7 @@ void transformTextures()
 			// Begin Play Scene
 			gA::pauseButton.scaled(ga.myBgTexture.width, ga.myBgTexture.height, SMALL);
 			gA::hint1.scaled(ga.myBgTexture.width, ga.myBgTexture.height, SMALL);
+			gA::hint2.scaled(ga.myBgTexture.width, ga.myBgTexture.height, SMALL);
 
 			// Pause Scene
 			gA::resumeButton.scaled(ga.myBgTexture.width, ga.myBgTexture.height, LARGE);

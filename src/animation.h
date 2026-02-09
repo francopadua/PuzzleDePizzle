@@ -20,14 +20,16 @@ namespace Delay
 namespace FadeState
 {
 	extern float alpha;
-	extern float alphaOut;
+	extern float alphaOutText;
+	extern float alphaOutTexture;
+	extern float alphaOutRec;
 	extern float fadeSpeed;
 	extern float fadeOutSpeed;
 
 	void Update();
-	void Out();
+	void Out(int seconds, DrawType drawType);
 	void Reset();
 
 	Color getTint(Color tint);
-	Color tintOut(Color tint);
+	Color tintOut(Color tint, DrawType drawType);
 }

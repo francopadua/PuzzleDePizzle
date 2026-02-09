@@ -154,6 +154,9 @@
     <Image Include="Resources\Images\exit_button_up.png" />
     <Image Include="Resources\Images\folder_down.png" />
     <Image Include="Resources\Images\folder_up.png" />
+    <Image Include="Resources\Images\Icons\icon1.png" />
+    <Image Include="Resources\Images\Icons\icon2.png" />
+    <Image Include="Resources\Images\Icons\icon3.png" />
     <Image Include="Resources\Images\jerry.jpg" />
     <Image Include="Resources\Images\mayon.jpg" />
     <Image Include="Resources\Images\menu_button_down.png" />
@@ -164,10 +167,14 @@
     <Image Include="Resources\Images\play_button_up.png" />
     <Image Include="Resources\Images\plus_down.png" />
     <Image Include="Resources\Images\plus_up.png" />
+    <Image Include="Resources\Images\prev_button_down.png" />
+    <Image Include="Resources\Images\prev_button_up.png" />
     <Image Include="Resources\Images\res_button_down.png" />
     <Image Include="Resources\Images\res_button_up.png" />
     <Image Include="Resources\Images\retry_button_down.png" />
     <Image Include="Resources\Images\retry_button_up.png" />
+    <Image Include="Resources\Images\next_button_down.png" />
+    <Image Include="Resources\Images\next_button_up.png" />
     <Image Include="Resources\Images\start_button_down.png" />
     <Image Include="Resources\Images\start_button_up.png" />
     <Image Include="Resources\Images\sub_down.png" />
@@ -179,6 +186,9 @@
     <Image Include="Resources\Images\tog_h1_disabled.png" />
     <Image Include="Resources\Images\tog_h1_down.png" />
     <Image Include="Resources\Images\tog_h1_up.png" />
+    <Image Include="Resources\Images\tog_h2_disabled.png" />
+    <Image Include="Resources\Images\tog_h2_down.png" />
+    <Image Include="Resources\Images\tog_h2_up.png" />
     <Image Include="Resources\Images\tog_music_disabled.png" />
     <Image Include="Resources\Images\tog_music_down.png" />
     <Image Include="Resources\Images\tog_music_up.png" />
@@ -210,6 +220,7 @@
     <Media Include="Resources\Audio\music2.mp3" />
     <Media Include="Resources\Audio\sound1.mp3" />
     <Media Include="Resources\Audio\sound2.mp3" />
+    <Media Include="Resources\Audio\sound3.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -31,9 +31,15 @@ public:
 	float getButtonHeight() const override { return m_toggled ? m_imageButtonDisabledTexture.height : Button::getButtonHeight(); }
 	float getDuration() const { return m_remaining; }
 
+	// The setters
+	void resetToggle() { m_toggled = false; }
+	void resetDisable() { m_disabled = false; }
+	void resetRemaining() { m_remaining = m_targetDuration; }
+
 	// The functionality
 	void draw(Vector2 position, Vector2 mousePos) override;
 	void update();
+	void reset();
 	void handleInput();
 	bool isToggled();
 	bool isDisabled() const { return m_disabled; }
