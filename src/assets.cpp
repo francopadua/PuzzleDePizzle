@@ -42,9 +42,14 @@ void LoadAssets()
 	gc.puz2hover = false;
 	gc.puz3hover = false;
 
+	// Temp
+	ga.tempImage;
+
 	// Backgrounds
 	ga.myBgImage = LoadImage("Resources/Images/bg.png");
 	ga.myBgTexture = LoadTextureFromImage(ga.myBgImage);
+	ga.myBgBlankImage = LoadImage("Resources/Images/bg_blank.png");
+	ga.myBgBlankTexture = LoadTextureFromImage(ga.myBgBlankImage);
 	ga.myBgImageOverlay = LoadImage("Resources/Images/bgOverlay.png");
 	ga.myBgTextureOverlay = LoadTextureFromImage(ga.myBgImageOverlay);
 	ga.myBgBorder[0] = LoadImage("Resources/Images/wood_border.png");
@@ -69,8 +74,7 @@ void LoadAssets()
 
 	// Font
 	ga.myFontLarge = LoadFontEx("Resources/Font/The Bomb Sound.ttf", fontSizeLarge, nullptr, 0);
-	//ga.myFontSmall = LoadFontEx("Resources/Font/The Bomb Sound.ttf", fontSizeSmall, nullptr, 0);
-	ga.myFontSmall = LoadFont("Resources/Font/The Bomb Sound.ttf");
+	ga.myFontSmall = LoadFontEx("Resources/Font/The Bomb Sound.ttf", fontSizeSmall, nullptr, 0);
 
 	// Text to Image
 	// Choose Image Scene
@@ -91,6 +95,11 @@ void LoadAssets()
 	ga.txt_Paused = ImageTextEx(ga.myFontLarge, "Paused", fontSizeLarge, fontSpacing, BLACK);
 	ga.txt_Paused_texture = LoadTextureFromImage(ga.txt_Paused);
 
+	// Win Scene
+	ga.ptime = "";
+	ga.pmove = "";
+	ga.ph1 = "";
+	ga.ph2 = "";
 
 	// ================================================================================
 
@@ -134,9 +143,16 @@ void gA::LoadClassedAssets()
 
 void UnloadAssets()
 {
-	// Bg and Bg overlay
+	// Temp
+	if (ga.tempImage.data != nullptr)
+		ga.tempImage = {};
+	
+	// Background contents
 	UnloadImage(ga.myBgImage);
 	UnloadTexture(ga.myBgTexture);
+	UnloadImage(ga.myBgBlankImage);
+	UnloadTexture(ga.myBgBlankTexture);
+
 	UnloadImage(ga.myBgImageOverlay);
 	UnloadTexture(ga.myBgTextureOverlay);
 	UnloadImage(ga.myBgBorder[0]);

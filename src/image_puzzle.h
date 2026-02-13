@@ -72,8 +72,13 @@ namespace Puzzle
     // destroy the puzzle
     void destroy();
 
+    // update puzzle state
+    void update();
+
     // movement
     bool tryMove(int dr, int dc); // dr = -1..1, dc = -1..1
 }
 
 void theImagePuzzle(Image& myPuzzleImage, const Image& myImageChoosen, Texture& myPuzzleTexture);
+
+void saveScore();

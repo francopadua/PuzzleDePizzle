@@ -128,13 +128,14 @@ void sceneFunctions()
 		// Scene Updates
 		sceneMusic(ga.playMusic);
 		updateSlice();			// update the grid everytime when window is resized
+		Puzzle::update();		// update puzzle state (e.g. timer)
 		// Scene 4-5 switch
 		if (gA::pauseButton.isPressed()) {
 			sceneSound(ga.selectSound);
 			gc.currentScene = Scene::PAUSE_SCENE;
 		}
 		// Scene 4-6 switch (delayed)
-		if (Delay::timeTarget == 3.0f) {
+		if (Delay::timeTarget == 4.0f) {
 			gc.currentScene = Scene::WIN_SCENE;
 		}
 
@@ -155,20 +156,29 @@ void sceneFunctions()
 		}
 
 		// Scene 4 actions
-		if (gA::hint1.isPressed())			++Puzzle::Counter::h1;
+		if (gA::hint1.isPressed()) {
+			++Puzzle::Counter::h1;
+			sceneSound(ga.selectSound);
+		}
+		if (gA::hint2.isPressed()) {
+			++Puzzle::Counter::h2;
+			sceneSound(ga.selectSound);
+		}
+
 		if (gA::hint1.isToggled()) {
 			FadeState::Out(14, RECTANGLE);
 			FadeState::Out(14, TEXT);	// 14 seconds before the guide hint disappears
-			gA::hint1.update();			// 60 seconds before the hint 2 enables again
+			gA::hint1.update();			// 120 seconds before the hint 2 enables again
 		}
-		if (gA::hint2.isPressed())			++Puzzle::Counter::h2;
 		if (gA::hint2.isToggled()) {
-			FadeState::Out(14, TEXTURE);
+			FadeState::Out(5, TEXTURE);
 			gA::hint2.update();			// 30 seconds before the hint 2 enables again
 		}
 
 		// Scene 4 updates
 		if (Puzzle::isSolved()) {
+			saveScore();
+
 			if (Audio::winSound) {
 				Audio::winSound = false;
 				sceneSound(ga.solvedSound);
@@ -223,6 +233,7 @@ void sceneFunctions()
 			sceneSound(ga.selectSound);
 			// Rebuild and Re-shuffle the puzzle
 			Puzzle::destroy();
+			updateSlice();		// Get the updated slice size
 			Puzzle::loadPuzzle(ga.myPuzzleImage, sl.puz);
 			Puzzle::finalizeLoad();
 

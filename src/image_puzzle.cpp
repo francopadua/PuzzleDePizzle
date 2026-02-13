@@ -179,11 +179,23 @@ void Puzzle::destroy()
     puz_guide.clear();
 
     // Reset puzzle state
+    solved = false;
     Timer::elapsedTime = 0.0f;
     Timer::totalSeconds = 0;
     Counter::move = 0;
     Counter::h1 = 0;
     Counter::h2 = 0;
+}
+
+// Update puzzle state
+void Puzzle::update()
+{
+	// Get Frame Time (Timer)
+	Puzzle::Timer::elapsedTime += Game::getFrame();
+	if (Puzzle::Timer::elapsedTime >= 1.0f && !Puzzle::isSolved()) {
+		++Puzzle::Timer::totalSeconds;
+		Puzzle::Timer::elapsedTime -= 1.0f;
+	}
 }
 
 bool Puzzle::tryMove(int dr, int dc)
@@ -211,4 +223,13 @@ bool Puzzle::tryMove(int dr, int dc)
     sceneSound(ga.slideSound);
 
     return true;
+}
+
+void saveScore()
+{
+    // Save the score
+    ga.ptime = Puzzle::Timer::get();
+    ga.pmove = toText(Puzzle::Counter::move);
+    ga.ph1 = toText(Puzzle::Counter::h1);
+    ga.ph2 = toText(Puzzle::Counter::h2);
 }

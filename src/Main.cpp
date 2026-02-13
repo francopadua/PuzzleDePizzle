@@ -6,18 +6,12 @@
 #include "transform.h"
 #include "user_controls.h"
 
+#include <cmath>
 #include <iostream>
 #include <string>
 #include <string_view>
 #include <vector>
 #include <raylib.h>
-
-const char* toText(int num)
-{
-	static std::string buf;
-	buf = std::to_string(num);
-	return buf.c_str();
-}
 
 // Temporary
 Vector2 myString(const std::string& str)
@@ -32,9 +26,8 @@ int main()
 	SetConfigFlags(FLAG_VSYNC_HINT | FLAG_WINDOW_RESIZABLE);
 	InitWindow(screenWidth, screenHeight, "PuzzleDePizzle");
 	
-	//SetWindowState(FLAG_WINDOW_RESIZABLE);
 	SetWindowMinSize(screenWidth, screenHeight);
-	MaximizeWindow();
+	//MaximizeWindow();
 	SetTargetFPS(60);
 
 	// Init Audio device
@@ -59,6 +52,11 @@ int main()
 		const char* mX = mouseX.c_str();
 		const char* mY = mouseY.c_str();
 
+		// Functions and behaviors inside scenes
+		sceneFunctions();
+		if (Puzzle::isSolved() && gc.currentScene == Scene::BEGIN_PLAY_SCENE)
+			textureTransform(ga.myBgBlankImage, ga.myBgBlankTexture, IMAGE_AS_BG);
+
 		// Resize the texture and maintain quality if the screen dimension is updated
 		transformTextures();
 
@@ -67,9 +65,6 @@ int main()
 
 		// Keyboard controls for the system
 		UserControls::systemControls();
-
-		// Functions and behaviors inside scenes
-		sceneFunctions();
 
 		// DISPLAY EVERYTHING HERE NOW
 		BeginDrawing();
@@ -102,8 +97,8 @@ int main()
 									(gc.currentWindowHeight / 1.9f) }, gc.clickLocation);
 				gA::exitButton.draw({ (gc.currentWindowWidth / 2.0f) - (gA::exitButton.getButtonWidth() / 2.0f), 
 									(gc.currentWindowHeight / 1.9f) + (gA::playButton.getButtonHeight() * 1.1f) }, gc.clickLocation);
-				gA::musicButton.draw({ tl.bg.x, (tl.bg.height - (gA::musicButton.getButtonHeight()))}, gc.clickLocation);
-				gA::soundButton.draw({ tl.bg.x + (gA::soundButton.getButtonWidth() * 1.1f), (tl.bg.height - (gA::soundButton.getButtonHeight()))}, gc.clickLocation);
+				gA::musicButton.draw({ tl.bg.x, ((tl.bg.y + tl.bg.height) - gA::musicButton.getButtonHeight())}, gc.clickLocation);
+				gA::soundButton.draw({ tl.bg.x + (gA::soundButton.getButtonWidth() * 1.1f), ((tl.bg.y + tl.bg.height) - gA::soundButton.getButtonHeight())}, gc.clickLocation);
 			} break;
 
 			case Scene::CHOOSE_IMAGE_SCENE: 
@@ -202,17 +197,27 @@ int main()
 				gA::hint2.draw({ tl.bg_o.x + (tl.bg_o.width / 2.0f) + 10.0f, (tl.bg_o.y + tl.bg_o.height) }, gc.clickLocation);
 
 				// Puzzle blank space
-				DrawRectangle(tl.p_image.x, tl.p_image.y, tl.p_image.width, tl.p_image.height, BLACK);
+				DrawRectangle((int)tl.p_image.x, (int)tl.p_image.y, (int)ga.myPuzzleTexture.width, (int)ga.myPuzzleTexture.height, BLACK);
+
 				// The puzzle image
-				for (int i = 0; i < (int)Puzzle::puzzleTexture.size(); ++i) {
+				for (int i = 0; i < (int)Puzzle::puzzleTexture.size(); ++i) 
+				{
 				    if (i == Puzzle::blankIndex) continue; // **important**
+
 					// Draw the tiles
-				    DrawTexture(Puzzle::puzzleTexture[i], sl.rec[i].x, sl.rec[i].y, WHITE);
+				    DrawTexture(Puzzle::puzzleTexture[i], (int)sl.rec[i].x, (int)sl.rec[i].y, WHITE);
+
 					// if Hint 1 used (puzzle guide numbers appear so only in puzzle grid loop will draw)
 					if (gA::hint1.isToggled()) {
 						Vector2 textSize = MeasureTextEx(ga.myFontSmall, toText(Puzzle::puz_guide[i]), fontSizeSmall - 5, fontSpacing);
-						DrawRectangle(sl.rec[i].x, sl.rec[i].y, textSize.x + 5, textSize.y, FadeState::tintOut(BLACK, RECTANGLE));
-						DrawTextEx(ga.myFontSmall, toText(Puzzle::puz_guide[i]), {sl.rec[i].x, sl.rec[i].y}, fontSizeSmall, fontSpacing, FadeState::tintOut(WHITE, TEXT));
+						float rawX = sl.rec[i].x + sl.rec[i].width * 0.5f - textSize.x * 0.5f;
+						float rawY = sl.rec[i].y + sl.rec[i].height * 0.5f - textSize.y * 0.5f;
+						auto snappedX = static_cast<int>(rawX);
+						auto snappedY = static_cast<int>(rawY);
+						// Text guide shadow
+						DrawTextEx(ga.myFontSmall, toText(Puzzle::puz_guide[i]), { (float)snappedX - 2, (float)snappedY - 2 }, fontSizeSmall + 2, fontSpacing, FadeState::tintOut(BLACK, TEXT));
+						// Text guide
+						DrawTextEx(ga.myFontSmall, toText(Puzzle::puz_guide[i]), { (float)snappedX, (float)snappedY }, fontSizeSmall, fontSpacing, FadeState::tintOut(WHITE, TEXT));
 					}
 				}
 
@@ -222,32 +227,27 @@ int main()
 				}
 				// if Hint 2 used
 				if (gA::hint2.isToggled()) {
-					DrawTexture(ga.myPuzzleTexture, tl.p_image.x, tl.p_image.y, FadeState::tintOut(WHITE, TEXTURE));
+					DrawTexture(ga.myPuzzleTexture, (int)((gc.currentWindowWidth / 2.0f) - (ga.myPuzzleTexture.width / 2.0f)),
+						(int)((gc.currentWindowHeight / 2.0f) - (ga.myPuzzleTexture.height / 2.0f)),
+						FadeState::tintOut(WHITE, TEXTURE));
 					DrawTextEx(ga.myFontSmall, toText(gA::hint2.getDuration() + 1), { tl.bg_o.x + (tl.bg_o.width / 2.0f) + 10.0f, (tl.bg_o.y + tl.bg_o.height) }, fontSizeSmall, fontSpacing, WHITE);
 				}
 
-				// Tile outline
-				for (const auto& r : sl.rec)
-					DrawRectangleLinesEx(r, 1.0f, BLACK);
-
-				// The timer and counter label
-				DrawTextEx(ga.myFontSmall, Puzzle::Timer::timerLabel, { tl.bg.x, tl.bg.y }, fontSizeSmall, fontSpacing, BLACK);
-				DrawTextEx(ga.myFontSmall, Puzzle::Counter::moveLabel, { tl.bg.x, tl.bg.y + fontSizeSmall }, fontSizeSmall, fontSpacing, BLACK);
-				DrawTextEx(ga.myFontSmall, Puzzle::Counter::h1Label, { tl.bg.x, tl.bg.height - fontSizeSmall * 2 }, fontSizeSmall, fontSpacing, BLACK);
-				DrawTextEx(ga.myFontSmall, Puzzle::Counter::h2Label, { tl.bg.x, tl.bg.height - fontSizeSmall }, fontSizeSmall, fontSpacing, BLACK);
-
-				// Get Frame Time (Timer)
-				Puzzle::Timer::elapsedTime += Game::getFrame();
-				if (Puzzle::Timer::elapsedTime >= 1.0f && !Puzzle::isSolved()) {
-					++Puzzle::Timer::totalSeconds;
-					Puzzle::Timer::elapsedTime -= 1.0f;
+				// Tile outline (outside the puzzle so that it can include the solved texture hint 2 and its tile position visualization)
+				for (int i{ 0 }; i < (int)Puzzle::puzzleTexture.size(); ++i) 
+				{
+					DrawRectangleLines((int)sl.rec[i].x, (int)sl.rec[i].y, (int)sl.rec[i].width, (int)sl.rec[i].height, BLACK);
 				}
 
-				// The timer and counter itself
+				// The timer and counter 
+				DrawTextEx(ga.myFontSmall, Puzzle::Timer::timerLabel, { tl.bg.x, tl.bg.y }, fontSizeSmall, fontSpacing, BLACK);
+				DrawTextEx(ga.myFontSmall, Puzzle::Counter::moveLabel, { tl.bg.x, tl.bg.y + fontSizeSmall }, fontSizeSmall, fontSpacing, BLACK);
+				DrawTextEx(ga.myFontSmall, Puzzle::Counter::h1Label, { tl.bg.x, (tl.bg.y + tl.bg.height) - fontSizeSmall * 2 }, fontSizeSmall, fontSpacing, BLACK);
+				DrawTextEx(ga.myFontSmall, Puzzle::Counter::h2Label, { tl.bg.x, (tl.bg.y + tl.bg.height) - fontSizeSmall }, fontSizeSmall, fontSpacing, BLACK);
 				DrawTextEx(ga.myFontSmall, Puzzle::Timer::get(), { tl.bg.x + Puzzle::Timer::timerLabelSize.x, tl.bg.y }, fontSizeSmall, fontSpacing, BLACK);
 				DrawTextEx(ga.myFontSmall, toText(Puzzle::Counter::move), { tl.bg.x + Puzzle::Counter::moveLabelSize.x, tl.bg.y + fontSizeSmall }, fontSizeSmall, fontSpacing, BLACK);
-				DrawTextEx(ga.myFontSmall, toText(Puzzle::Counter::h1), { tl.bg.x + Puzzle::Counter::h1LabelSize.x, tl.bg.height - fontSizeSmall * 2 }, fontSizeSmall, fontSpacing, BLACK);
-				DrawTextEx(ga.myFontSmall, toText(Puzzle::Counter::h2), { tl.bg.x + Puzzle::Counter::h2LabelSize.x, tl.bg.height - fontSizeSmall }, fontSizeSmall, fontSpacing, BLACK);
+				DrawTextEx(ga.myFontSmall, toText(Puzzle::Counter::h1), { tl.bg.x + Puzzle::Counter::h1LabelSize.x, (tl.bg.y + tl.bg.height) - fontSizeSmall * 2}, fontSizeSmall, fontSpacing, BLACK);
+				DrawTextEx(ga.myFontSmall, toText(Puzzle::Counter::h2), { tl.bg.x + Puzzle::Counter::h2LabelSize.x, (tl.bg.y + tl.bg.height) - fontSizeSmall }, fontSizeSmall, fontSpacing, BLACK);
 
 				// Check puzzle state
 				Puzzle::check();
@@ -265,11 +265,15 @@ int main()
 
 			case Scene::PAUSE_SCENE:
 			{
-				// Time count and move paused
+				// Timer and counter paused
 				DrawTextEx(ga.myFontSmall, Puzzle::Timer::timerLabel, { tl.bg.x, tl.bg.y }, fontSizeSmall, fontSpacing, BLACK);
-				DrawTextEx(ga.myFontSmall, Puzzle::Counter::moveLabel, { tl.bg.x, tl.bg.y + fontSizeSmall }, fontSizeSmall, fontSpacing, BLACK);
 				DrawTextEx(ga.myFontSmall, Puzzle::Timer::get(), {tl.bg.x + Puzzle::Timer::timerLabelSize.x, tl.bg.y}, fontSizeSmall, fontSpacing, BLACK);
+				DrawTextEx(ga.myFontSmall, Puzzle::Counter::moveLabel, { tl.bg.x, tl.bg.y + fontSizeSmall }, fontSizeSmall, fontSpacing, BLACK);
 				DrawTextEx(ga.myFontSmall, toText(Puzzle::Counter::move), { tl.bg.x + Puzzle::Counter::moveLabelSize.x, tl.bg.y + fontSizeSmall }, fontSizeSmall, fontSpacing, BLACK);
+				DrawTextEx(ga.myFontSmall, Puzzle::Counter::h1Label, { tl.bg.x, (tl.bg.y + tl.bg.height) - fontSizeSmall * 2}, fontSizeSmall, fontSpacing, BLACK);
+				DrawTextEx(ga.myFontSmall, Puzzle::Counter::h2Label, { tl.bg.x, (tl.bg.y + tl.bg.height) - fontSizeSmall }, fontSizeSmall, fontSpacing, BLACK);
+				DrawTextEx(ga.myFontSmall, toText(Puzzle::Counter::h1), { tl.bg.x + Puzzle::Counter::h1LabelSize.x, (tl.bg.y + tl.bg.height) - fontSizeSmall * 2 }, fontSizeSmall, fontSpacing, BLACK);
+				DrawTextEx(ga.myFontSmall, toText(Puzzle::Counter::h2), { tl.bg.x + Puzzle::Counter::h2LabelSize.x, (tl.bg.y + tl.bg.height) - fontSizeSmall }, fontSizeSmall, fontSpacing, BLACK);
 
 				DrawTexture(ga.txt_Paused_texture, 
 							tl.bg_o.x + (tl.bg_o.width / 2) - (ga.txt_Paused_texture.width / 2.0f), 
@@ -285,11 +289,13 @@ int main()
 			case Scene::WIN_SCENE:
 			{
 				DrawRectangle(tl.bg.x, tl.bg.y, tl.bg.width, tl.bg.height, Fade(BLACK, 0.7f));
+				DrawTexture(ga.myBgBlankTexture, tl.bg.x, tl.bg.y, WHITE);			// Puzzle results are drawn here
+
+
 				gA::retryButton.draw({ (gc.currentWindowWidth / 2.0f) - (gA::retryButton.getButtonWidth() / 2.0f), 
 									(gc.currentWindowHeight / 1.9f) }, gc.clickLocation);
 				gA::menuButton.draw({ (gc.currentWindowWidth / 2.0f) - (gA::menuButton.getButtonWidth() / 2.0f), 
 									(gc.currentWindowHeight / 1.9f) + (gA::resumeButton.getButtonHeight() * 1.1f) }, gc.clickLocation);
-
 			} break;
 		}
 

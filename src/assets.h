@@ -5,9 +5,14 @@
 #include "ToggleButton.h"
 
 struct Assets {
+	// Temporary
+	Image tempImage;
+
 	// Backgrounds
 	Image myBgImage;
 	Texture2D myBgTexture;
+	Image myBgBlankImage;
+	Texture2D myBgBlankTexture;
 	Image myBgImageOverlay;
 	Texture2D myBgTextureOverlay;
 	Image myBgBorder[2];
@@ -49,6 +54,12 @@ struct Assets {
 	// Pause Scene
 	Image txt_Paused;
 	Texture2D txt_Paused_texture;
+
+	// Win Scene
+	std::string ptime;
+	std::string pmove;
+	std::string ph1;
+	std::string ph2;
 
 	// ================================================================================
 

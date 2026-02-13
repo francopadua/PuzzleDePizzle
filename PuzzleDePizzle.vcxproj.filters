@@ -54,6 +54,9 @@
     <ClCompile Include="src\FileDialog\tinyfiledialogs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\PuzzleResult.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\Images\bertface.png">
@@ -200,6 +203,9 @@
     <Image Include="Resources\Images\Icons\icon3.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Resources\Images\bg_blank.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\image_slice.h">
@@ -236,6 +242,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\ToggleButton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Random.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PuzzleResult.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

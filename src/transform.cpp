@@ -80,16 +80,54 @@ Image imageManipulate(Image* myImage, ImageType imageType)
 
 void textureTransform(const Image& image, Texture2D& texture, ImageType imageType)
 {
-	if (image.data != nullptr) {
-		if (texture.id != 0) {
-			UnloadTexture(texture);
-		}
+	if (image.data != nullptr)
+	{
+		if (texture.id != 0)	UnloadTexture(texture);
 
 		Image temp = ImageCopy(image);
 		Image temp2 = imageManipulate(&temp, imageType);
 
+		// For text attach to the 0 opacity blank BG image, so that I don't need to resize every Image text
+		if (image.data == ga.myBgBlankImage.data)
+		{
+			// Will define on a separate function later
+			if (Puzzle::isSolved()) {
+				// Can be used anywhere but the highest detail is the base font, not the scaledFont
+				float scaleX = (float)GetScreenWidth() / screenWidth;
+				float scaleY = (float)GetScreenHeight() / screenHeight;
+				float scale = std::min(scaleX, scaleY);
+				float scaledFont = fontSizeSmall * scale;	// Base font size: 30.0f
+
+				// Format
+				/*
+						   Time:	{Puzzle::Timer::get()}
+						  Moves:	{Puzzle::Counter::move}
+					Hint 1 used:	{Puzzle::Counter::hint1}
+					Hint 2 used:	{Puzzle::Counter::hint2}
+				*/
+
+				Vector2 ptime = MeasureTextEx(ga.myFontSmall, "Time:", scaledFont, fontSpacing);
+				Vector2 pmove = MeasureTextEx(ga.myFontSmall, "Moves:", scaledFont, fontSpacing);
+				Vector2 ph1 = MeasureTextEx(ga.myFontSmall, "Hint 1 used:", scaledFont, fontSpacing);
+				Vector2 ph2 = MeasureTextEx(ga.myFontSmall, "Hint 2 used:", scaledFont, fontSpacing);	// This is the longest text, maybe because 2 has bigger glyphs than 1
+
+				ImageDrawTextEx(&temp2, ga.myFontSmall, "Time: ", { (ph2.x - ptime.x) + (ga.myBgTexture.width / 4.0f), ga.myBgTexture.height * 0.30f}, scaledFont, fontSpacing, WHITE);
+				ImageDrawTextEx(&temp2, ga.myFontSmall, "Moves: ", { (ph2.x - pmove.x) + (ga.myBgTexture.width / 4.0f), ga.myBgTexture.height * 0.35f}, scaledFont, fontSpacing, WHITE);
+				ImageDrawTextEx(&temp2, ga.myFontSmall, "Hint 1 used: ", { (ph2.x - ph1.x) + (ga.myBgTexture.width / 4.0f), ga.myBgTexture.height * 0.40f }, scaledFont, fontSpacing, WHITE);
+				ImageDrawTextEx(&temp2, ga.myFontSmall, "Hint 2 used: ", { (ga.myBgTexture.width / 4.0f), ga.myBgTexture.height * 0.45f }, scaledFont, fontSpacing, WHITE);
+
+				ImageDrawTextEx(&temp2, ga.myFontSmall, ga.ptime.c_str(), { (ga.myBgTexture.width / 2.0f), ga.myBgTexture.height * 0.30f }, scaledFont, fontSpacing, WHITE);
+				ImageDrawTextEx(&temp2, ga.myFontSmall, ga.pmove.c_str(), { (ga.myBgTexture.width / 2.0f), ga.myBgTexture.height * 0.35f }, scaledFont, fontSpacing, WHITE);
+				ImageDrawTextEx(&temp2, ga.myFontSmall, ga.ph1.c_str(), { (ga.myBgTexture.width / 2.0f), ga.myBgTexture.height * 0.40f }, scaledFont, fontSpacing, WHITE);
+				ImageDrawTextEx(&temp2, ga.myFontSmall, ga.ph2.c_str(), { (ga.myBgTexture.width / 2.0f), ga.myBgTexture.height * 0.45f }, scaledFont, fontSpacing, WHITE);
+			}
+		}
+
 		texture = LoadTextureFromImage(temp2);
+
 		UnloadImage(temp);
+		temp2 = {};
+		ga.tempImage = {};
 	}
 }
 
@@ -125,8 +163,9 @@ void transformTextures()
 			textureTransform(ga.myPuzzleImage, ga.myPuzzleTexture, IMAGE_AS_PUZZLE);
 			arrayTransform();
 
-			// BG and BG Overlay
+			// Background contents
 			textureTransform(ga.myBgImage, ga.myBgTexture, IMAGE_AS_BG);
+			textureTransform(ga.myBgBlankImage, ga.myBgBlankTexture, IMAGE_AS_BG);
 			textureTransform(ga.myBgImageOverlay, ga.myBgTextureOverlay, IMAGE_AS_BG_OVERLAY);
 			textureTransform(ga.myBgBorder[0], ga.myBgBorderTexture[0], IMAGE_AS_BG);
 			textureTransform(ga.myBgBorder[1], ga.myBgBorderTexture[1], IMAGE_AS_BG);

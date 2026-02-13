@@ -22,7 +22,7 @@ namespace FadeState
 void Delay::Update()
 {
 	timeTarget += delaySpeed * Game::getFrame();
-	if (timeTarget > 3.0f) timeTarget = 3.0f;
+	if (timeTarget > 4.0f) timeTarget = 4.0f;
 }
 void Delay::Reset()
 {

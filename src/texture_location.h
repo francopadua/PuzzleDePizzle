@@ -8,6 +8,7 @@ struct TextureLoc
 {
 	// Background
 	Rectangle bg;
+	Rectangle bgBlank;
 	// Background overlay
 	Rectangle bg_o;
 	// Title

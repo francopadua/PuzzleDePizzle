@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #include <raylib.h>
 
 // Window minimum size
@@ -39,6 +40,9 @@ enum DrawType {
 	TEXTURE,
 	RECTANGLE
 };
+
+// Other config
+const char* toText(int num);
 
 struct Config {
 	// For updating window size

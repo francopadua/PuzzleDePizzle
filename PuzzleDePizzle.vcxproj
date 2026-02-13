@@ -138,6 +138,7 @@
     <ClCompile Include="src\image_puzzle.cpp" />
     <ClCompile Include="src\image_slice.cpp" />
     <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\PuzzleResult.cpp" />
     <ClCompile Include="src\scene_management.cpp" />
     <ClCompile Include="src\texture_location.cpp" />
     <ClCompile Include="src\ToggleButton.cpp" />
@@ -150,6 +151,7 @@
     <Image Include="Resources\Images\bertface.png" />
     <Image Include="Resources\Images\bg.png" />
     <Image Include="Resources\Images\bgOverlay.png" />
+    <Image Include="Resources\Images\bg_blank.png" />
     <Image Include="Resources\Images\exit_button_down.png" />
     <Image Include="Resources\Images\exit_button_up.png" />
     <Image Include="Resources\Images\folder_down.png" />
@@ -202,6 +204,8 @@
     <ClInclude Include="src\FileDialog\tinyfiledialogs.h" />
     <ClInclude Include="src\image_puzzle.h" />
     <ClInclude Include="src\image_slice.h" />
+    <ClInclude Include="src\PuzzleResult.h" />
+    <ClInclude Include="src\Random.h" />
     <ClInclude Include="src\scene_management.h" />
     <ClInclude Include="src\texture_location.h" />
     <ClInclude Include="src\ToggleButton.h" />
