@@ -139,6 +139,7 @@
     <ClCompile Include="src\image_slice.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\PuzzleResult.cpp" />
+    <ClCompile Include="src\SaveResults\Save.cpp" />
     <ClCompile Include="src\scene_management.cpp" />
     <ClCompile Include="src\texture_location.cpp" />
     <ClCompile Include="src\ToggleButton.cpp" />
@@ -171,6 +172,15 @@
     <Image Include="Resources\Images\plus_up.png" />
     <Image Include="Resources\Images\prev_button_down.png" />
     <Image Include="Resources\Images\prev_button_up.png" />
+    <Image Include="Resources\Images\Rate\0.png" />
+    <Image Include="Resources\Images\Rate\10.png" />
+    <Image Include="Resources\Images\Rate\3.png" />
+    <Image Include="Resources\Images\Rate\4.png" />
+    <Image Include="Resources\Images\Rate\5.png" />
+    <Image Include="Resources\Images\Rate\6.png" />
+    <Image Include="Resources\Images\Rate\7.png" />
+    <Image Include="Resources\Images\Rate\8.png" />
+    <Image Include="Resources\Images\Rate\9.png" />
     <Image Include="Resources\Images\res_button_down.png" />
     <Image Include="Resources\Images\res_button_up.png" />
     <Image Include="Resources\Images\retry_button_down.png" />
@@ -206,6 +216,7 @@
     <ClInclude Include="src\image_slice.h" />
     <ClInclude Include="src\PuzzleResult.h" />
     <ClInclude Include="src\Random.h" />
+    <ClInclude Include="src\SaveResults\Save.h" />
     <ClInclude Include="src\scene_management.h" />
     <ClInclude Include="src\texture_location.h" />
     <ClInclude Include="src\ToggleButton.h" />
@@ -223,7 +234,7 @@
     <Media Include="Resources\Audio\music1.mp3" />
     <Media Include="Resources\Audio\music2.mp3" />
     <Media Include="Resources\Audio\sound1.mp3" />
-    <Media Include="Resources\Audio\sound2.mp3" />
+    <Media Include="Resources\Audio\sound2.wav" />
     <Media Include="Resources\Audio\sound3.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

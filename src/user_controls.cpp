@@ -29,4 +29,14 @@ void UserControls::userControls()
 		if (IsKeyPressed(KEY_D)) { Puzzle::tryMove( 0,-1); } // move blank left
 		if (IsKeyPressed(KEY_A)) { Puzzle::tryMove( 0, 1); } // move blank right
 	}
+
+	// GOD MODE
+	if (gc.currentScene == Scene::BEGIN_PLAY_SCENE)
+	{
+		if (IsKeyDown(KEY_SPACE)) {
+			for (int i{ 0 }; i < Puzzle::puz_guide.size(); ++i) {
+				Puzzle::puz_guide[i] = Puzzle::_solved[i];
+			}
+		}
+	}
 }

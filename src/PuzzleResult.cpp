@@ -2,6 +2,8 @@
 
 namespace PuzzleResult
 {
+	std::string resultMsg;
+
 	const std::map<int, ResultMessages> resultTable =
 	{
 		{ 3, {
@@ -39,3 +41,17 @@ namespace PuzzleResult
 	};
 }
 
+// Result messages
+std::string getResult(int gridSize)
+{
+	const ResultMessages& message_ = PuzzleResult::resultTable.at(gridSize);
+
+	if (Puzzle::Counter::h1 > 0)	return "";		// If hint 1 is used, no message
+
+	int getNum{ Random::get(0, 1) };
+
+	if (Puzzle::Counter::h1 == 0 && Puzzle::Counter::h2 == 0)
+		return message_.noHint[getNum];
+
+	return message_.withHint[getNum];
+}

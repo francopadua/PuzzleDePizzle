@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include <string>
 #include <raylib.h>
 
@@ -12,19 +13,31 @@ inline constexpr float fontSizeLarge{ 70.0f };
 inline constexpr float fontSizeSmall{ 30.0f };
 inline constexpr float fontSpacing{ 2.0f };
 
+inline float getScaledFont(float gsw, float gsh)
+{
+	// Can be used anywhere but the highest detail is the base font, not the scaledFont
+	float scaleX = gsw / screenWidth;
+	float scaleY = gsh / screenHeight;
+	float scale = std::min(scaleX, scaleY);
+	float scaledFont = fontSizeSmall * scale;	// Base font size: 30.0f
+
+	return scaledFont;
+}
+
 // Paths
 inline constexpr const char* FONT_PATH = "Resources/Font/The Bomb Sound.ttf";
 inline constexpr const char* FILTER[] = { "*.png", "*.jpg", "*.bpm" };
 
 // Extra settings
 enum class Scene {
-	LOADING_SCENE,
 	MENU_SCENE,						// Display menu (Play, Exit)
-	BEGIN_PLAY_SCENE,				// Begin playing the puzzle 
 	CHOOSE_IMAGE_SCENE,				// Show scene on choosing image (built-in, custom)
 	CROP_SLICE_IMAGE_SCENE,			// Square, Portrait, Landscape (3x3, 4x4, 5x5, ... 3x4, 3x5, 3x6, ... etc)
+	BEGIN_PLAY_SCENE,				// Begin playing the puzzle 
 	PAUSE_SCENE,					// Menu and Resume
-	WIN_SCENE						// Solved puzzle scene
+	WIN_SCENE,						// Solved puzzle scene
+
+	MAX_SCENES
 };
 
 enum ImageType {
@@ -51,6 +64,9 @@ struct Config {
 
 	// For updating scene
 	Scene currentScene;
+
+	// For relative font scaling
+	float fontScaled;
 
 	// For draw if hovered
 	bool puz1hover;

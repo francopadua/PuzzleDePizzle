@@ -11,6 +11,7 @@ namespace Puzzle
 	int gridSize = 0;
 	int blankIndex = -1;
 
+    std::vector<int> _solved;
 }
 
 namespace Puzzle::Counter
@@ -115,6 +116,9 @@ void Puzzle::loadPuzzle(const Image& puzImage, const std::vector<Rectangle>& rec
 
 	puzzleTexture.reserve(std::size(rec));
 	puz_guide.reserve(std::size(puzzleTexture));
+
+    // Solve mode
+    _solved.reserve(std::size(puz_guide));
     
     // Refresh image transform
     Image tmp = ImageCopy(puzImage);
@@ -124,6 +128,7 @@ void Puzzle::loadPuzzle(const Image& puzImage, const std::vector<Rectangle>& rec
 	for (const auto& r : rec) {
 		puzzleTexture.push_back(LoadTextureFromImage(ImageFromImage(tmp2, r)));
 		puz_guide.push_back(i);
+        _solved.push_back(i);
 		++i;
         arrGrid.push_back(r);
 	}

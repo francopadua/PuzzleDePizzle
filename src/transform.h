@@ -1,9 +1,11 @@
 #pragma once
 
 #include "assets.h"
+#include "config.h"
 #include "image_puzzle.h"
 #include "image_slice.h"
-#include "config.h"
+#include "PuzzleResult.h"
+
 #include <raylib.h>
 
 Image imageManipulate(Image* myImage, ImageType imageType);

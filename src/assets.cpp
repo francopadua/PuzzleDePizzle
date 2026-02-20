@@ -43,13 +43,14 @@ void LoadAssets()
 	gc.puz3hover = false;
 
 	// Temp
-	ga.tempImage;
+	//ga.tempImage;
 
 	// Backgrounds
 	ga.myBgImage = LoadImage("Resources/Images/bg.png");
 	ga.myBgTexture = LoadTextureFromImage(ga.myBgImage);
 	ga.myBgBlankImage = LoadImage("Resources/Images/bg_blank.png");
 	ga.myBgBlankTexture = LoadTextureFromImage(ga.myBgBlankImage);
+
 	ga.myBgImageOverlay = LoadImage("Resources/Images/bgOverlay.png");
 	ga.myBgTextureOverlay = LoadTextureFromImage(ga.myBgImageOverlay);
 	ga.myBgBorder[0] = LoadImage("Resources/Images/wood_border.png");
@@ -78,6 +79,10 @@ void LoadAssets()
 
 	// Text to Image
 	// Choose Image Scene
+	ga.icon1 = "";
+	ga.icon2 = "";
+	ga.icon3 = "";
+
 	ga.txt_ChooseImage = ImageTextEx(ga.myFontLarge, "Choose Image", fontSizeLarge, fontSpacing, BLACK);
 	ga.txt_ChooseImage_texture = LoadTextureFromImage(ga.txt_ChooseImage);
 	ga.puzImg1Txt = ImageTextEx(ga.myFontLarge, "Ray of Colors", fontSizeLarge, fontSpacing, BLACK);
@@ -107,7 +112,7 @@ void LoadAssets()
 	ga.menuMusic = LoadMusicStream("Resources/Audio/music1.mp3");
 	ga.playMusic = LoadMusicStream("Resources/Audio/music2.mp3");
 	ga.solvedSound = LoadSound("Resources/Audio/sound1.mp3");
-	ga.slideSound = LoadSound("Resources/Audio/sound2.mp3");
+	ga.slideSound = LoadSound("Resources/Audio/sound2.wav");
 	ga.selectSound = LoadSound("Resources/Audio/sound3.wav");
 }
 
@@ -144,8 +149,8 @@ void gA::LoadClassedAssets()
 void UnloadAssets()
 {
 	// Temp
-	if (ga.tempImage.data != nullptr)
-		ga.tempImage = {};
+	//if (ga.tempImage.data != nullptr)
+	//	ga.tempImage = {};
 	
 	// Background contents
 	UnloadImage(ga.myBgImage);

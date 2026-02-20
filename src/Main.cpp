@@ -37,11 +37,13 @@ int main()
 	// Initialize all assets
 	LoadAssets();
 	gA::LoadClassedAssets();
+	gc.fontScaled = getScaledFont(GetScreenWidth(), GetScreenHeight());
 
 	PlayMusicStream(ga.menuMusic);
 	while (!WindowShouldClose() && !Game::isExited())
 	{
-		// THE FRAMES
+		// UPDATES
+		// Frames
 		Game::updateFrame();
 
 		// MouseClickLocation
@@ -52,16 +54,16 @@ int main()
 		const char* mX = mouseX.c_str();
 		const char* mY = mouseY.c_str();
 
-		// Functions and behaviors inside scenes
-		sceneFunctions();
-		if (Puzzle::isSolved() && gc.currentScene == Scene::BEGIN_PLAY_SCENE)
-			textureTransform(ga.myBgBlankImage, ga.myBgBlankTexture, IMAGE_AS_BG);
-
 		// Resize the texture and maintain quality if the screen dimension is updated
 		transformTextures();
 
 		// Get the texture shapes and location
 		getShapes();
+
+		// Functions and behaviors inside scenes
+		sceneFunctions();
+		if (Puzzle::isSolved() && gc.currentScene == Scene::BEGIN_PLAY_SCENE)
+			textureTransform(ga.myBgBlankImage, ga.myBgBlankTexture, IMAGE_AS_BG);
 
 		// Keyboard controls for the system
 		UserControls::systemControls();
@@ -78,8 +80,8 @@ int main()
 		DrawTexture(ga.myBgBorderTexture[1], tl.bg.x - ga.myBgBorderTexture[1].width, tl.bg.y, WHITE);
 		DrawTexture(ga.myBgBorderTexture[1], (tl.bg.x + tl.bg.width), tl.bg.y, WHITE);
 
-		//DrawText(mX, 0, 0, fontSizeSmall, GRAY);
-		//DrawText(mY, 0, 30, fontSizeSmall, GRAY);
+		DrawText(mX, 0, 0, fontSizeSmall, BLACK);
+		DrawText(mY, 0, 30, fontSizeSmall, BLACK);
 
 		switch (gc.currentScene)
 		{
@@ -89,8 +91,8 @@ int main()
 				DrawTexture(ga.myTitleTexture, tl.title.x, tl.title.y, WHITE);
 
 				// Temporary
-				DrawTextEx(ga.myFontSmall, "Game by:", { tl.bg.x + tl.bg.width - myString("Game by:").x, tl.bg.y + tl.bg.height - (fontSizeSmall * 2) }, fontSizeSmall, fontSpacing, BLACK);
-				DrawTextEx(ga.myFontSmall, "Frankrev", { tl.bg.x + tl.bg.width - myString("Frankrev").x, tl.bg.y + tl.bg.height - fontSizeSmall }, fontSizeSmall, fontSpacing, BLACK);
+				DrawTextEx(ga.myFontSmall, "Game by:", { tl.bg.x + tl.bg.width - myString("Game by:").x, tl.bg.y + tl.bg.height - (fontSizeSmall * 2) }, gc.fontScaled, fontSpacing, BLACK);
+				DrawTextEx(ga.myFontSmall, "Frankrev", { tl.bg.x + tl.bg.width - myString("Frankrev").x, tl.bg.y + tl.bg.height - fontSizeSmall }, gc.fontScaled, fontSpacing, BLACK);
 
 				// Buttons
 				gA::playButton.draw({ (gc.currentWindowWidth / 2.0f) - (gA::playButton.getButtonWidth() / 2.0f), 
@@ -131,9 +133,9 @@ int main()
 				}
 				
 				// Icons
-				DrawTexture(ga.puzzleImage1Texture, tl.icon1.x, tl.icon1.y, WHITE);
-				DrawTexture(ga.puzzleImage2Texture, tl.icon3.x, tl.icon2.y, WHITE);
-				DrawTexture(ga.puzzleImage3Texture, tl.icon3.x, tl.icon3.y, WHITE);
+				DrawTexture(ga.puzzleImage1Texture, (int)tl.icon1.x, (int)tl.icon1.y, WHITE);
+				DrawTexture(ga.puzzleImage2Texture, (int)tl.icon2.x, (int)tl.icon2.y, WHITE);
+				DrawTexture(ga.puzzleImage3Texture, (int)tl.icon3.x, (int)tl.icon3.y, WHITE);
 				
 				// Texts
 				DrawTexture(ga.txt_ChooseImage_texture, 
@@ -141,15 +143,15 @@ int main()
 							tl.bg_o.y - (ga.txt_ChooseImage_texture.height / 2.0f), 
 							BLACK);
 				DrawTexture(ga.puzImg1Txt_texture, 
-							(tl.bg_o.x + (tl.bg_o.width / 2.0f)), 
+							(tl.bg_o.x + (tl.bg_o.width / 2.0f)) - (ga.puzImg1Txt_texture.width / 2.0f),
 							(tl.icon1.y + (tl.icon1.height / 2.0f)) - (ga.puzImg1Txt_texture.height / 2.0f), 
 							BLACK);
 				DrawTexture(ga.puzImg2Txt_texture, 
-							(tl.bg_o.x + (tl.bg_o.width / 2.0f)), 
+							(tl.bg_o.x + (tl.bg_o.width / 2.0f)) - (ga.puzImg2Txt_texture.width / 2.0f),
 							(tl.icon2.y + (tl.icon2.height / 2.0f)) - (ga.puzImg2Txt_texture.height / 2.0f), 
 							BLACK);
 				DrawTexture(ga.puzImg3Txt_texture, 
-							(tl.bg_o.x + (tl.bg_o.width / 2.0f)), 
+							(tl.bg_o.x + (tl.bg_o.width / 2.0f)) - (ga.puzImg3Txt_texture.width / 2.0f),
 							(tl.icon3.y + (tl.icon3.height / 2.0f)) - (ga.puzImg3Txt_texture.height / 2.0f), 
 							BLACK);
 			} break;
@@ -215,7 +217,7 @@ int main()
 						auto snappedX = static_cast<int>(rawX);
 						auto snappedY = static_cast<int>(rawY);
 						// Text guide shadow
-						DrawTextEx(ga.myFontSmall, toText(Puzzle::puz_guide[i]), { (float)snappedX - 2, (float)snappedY - 2 }, fontSizeSmall + 2, fontSpacing, FadeState::tintOut(BLACK, TEXT));
+						DrawTextEx(ga.myFontSmall, toText(Puzzle::puz_guide[i]), { (float)snappedX, (float)snappedY }, fontSizeSmall + 3, fontSpacing, FadeState::tintOut(BLACK, TEXT));
 						// Text guide
 						DrawTextEx(ga.myFontSmall, toText(Puzzle::puz_guide[i]), { (float)snappedX, (float)snappedY }, fontSizeSmall, fontSpacing, FadeState::tintOut(WHITE, TEXT));
 					}
@@ -290,7 +292,6 @@ int main()
 			{
 				DrawRectangle(tl.bg.x, tl.bg.y, tl.bg.width, tl.bg.height, Fade(BLACK, 0.7f));
 				DrawTexture(ga.myBgBlankTexture, tl.bg.x, tl.bg.y, WHITE);			// Puzzle results are drawn here
-
 
 				gA::retryButton.draw({ (gc.currentWindowWidth / 2.0f) - (gA::retryButton.getButtonWidth() / 2.0f), 
 									(gc.currentWindowHeight / 1.9f) }, gc.clickLocation);

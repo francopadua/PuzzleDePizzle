@@ -1,18 +1,20 @@
 #pragma once
 
 #include "config.h"
+#include <array>
 #include "Button.h"
 #include "ToggleButton.h"
 
 struct Assets {
 	// Temporary
-	Image tempImage;
+	//Image tempImage;
 
 	// Backgrounds
 	Image myBgImage;
 	Texture2D myBgTexture;
 	Image myBgBlankImage;
 	Texture2D myBgBlankTexture;
+
 	Image myBgImageOverlay;
 	Texture2D myBgTextureOverlay;
 	Image myBgBorder[2];
@@ -40,6 +42,10 @@ struct Assets {
 	// Choose Image Scene
 	Image txt_ChooseImage;
 	Texture2D txt_ChooseImage_texture;
+	std::string icon1;
+	std::string icon2;
+	std::string icon3;
+
 	Image puzImg1Txt;
 	Texture2D puzImg1Txt_texture;
 	Image puzImg2Txt;

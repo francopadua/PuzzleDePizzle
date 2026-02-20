@@ -20,6 +20,8 @@ namespace Puzzle
     extern int gridSize;     // number of columns/rows
     extern int blankIndex; // current blank position (signed int!)
 
+    extern std::vector<int> _solved;
+
     namespace Counter
     {
         // Label
