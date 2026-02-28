@@ -1,8 +1,9 @@
 #pragma once
 
-#include "config.h"
 #include <array>
+#include "config.h"
 #include "Button.h"
+#include "SaveManager/LevelResults.h"
 #include "ToggleButton.h"
 
 struct Assets {
@@ -29,6 +30,9 @@ struct Assets {
 	Texture2D puzzleImage2Texture;
 	Image puzzleImage3;
 	Texture2D puzzleImage3Texture;
+	// Rate score
+	Image starImage[MAX_RATE];
+	Texture2D starTexture[MAX_RATE];
 
 	// THE IMAGE PUZZLE
 	Image myPuzzleImage;
@@ -109,6 +113,9 @@ namespace gA {
 
 	// Win Scene
 	extern Button retryButton;
+
+	// Level Results
+	extern LevelResult puz[MAX_PUZ];
 
 	void LoadClassedAssets();
 }

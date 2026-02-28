@@ -39,7 +39,33 @@ int main()
 	gA::LoadClassedAssets();
 	gc.fontScaled = getScaledFont(GetScreenWidth(), GetScreenHeight());
 
+
+	// Check if puzzle has records
+	if (!Puzzle::isSolved() /* Or if the puzzle has no records at all in user.dat file */)
+	{
+		gA::puz[PUZ_1].setStar((int)StarRate::STAR_0);
+		gA::puz[PUZ_2].setStar((int)StarRate::STAR_0);
+		gA::puz[PUZ_3].setStar((int)StarRate::STAR_0);
+	}
+	else
+	{
+		// gA::puz[PUZ_1].setStar( /* scan the obscured user.dat file for record that has the highest rating (3-10) */); not yet implemented
+		// same to gA::puz[PUZ_2], 3, 4, 5, etc.
+	}
+
+	// BEGIN
 	PlayMusicStream(ga.menuMusic);
+
+	// FOR STAR 10 testing
+	int rot = 0;
+	int txtrWidth = 0;
+	int txtrHeight = 0;
+	Rectangle src = {};
+	Rectangle dest1 = {};
+	Rectangle dest2 = {};
+	Rectangle dest3 = {};
+	Vector2 org = {};
+
 	while (!WindowShouldClose() && !Game::isExited())
 	{
 		// UPDATES
@@ -54,6 +80,27 @@ int main()
 		const char* mX = mouseX.c_str();
 		const char* mY = mouseY.c_str();
 
+
+		// FOR STAR 10 ONLY
+		txtrWidth = ga.starTexture[sl.slice].width;
+		txtrHeight = ga.starTexture[sl.slice].height;
+		src = { 0.0f, 0.0f, (float)txtrWidth, (float)txtrHeight };
+		org = { (float)txtrWidth / 2.0f, (float)txtrHeight / 2.0f };
+		if (gc.currentScene == Scene::WIN_SCENE) {
+			float newTxtrWidth = txtrWidth;
+			float newTxtrHeight = txtrHeight;
+			dest1 = { (GetScreenWidth() / 2.0f) + (tl.bg_o.width * 0.20f) + (txtrWidth / 2.0f), (GetScreenHeight() / 2.0f) - (txtrHeight / 2.0f), (float)txtrWidth, (float)txtrHeight};
+		}
+		if (gc.currentScene == Scene::CHOOSE_IMAGE_SCENE) 
+		{
+			if (gA::puz[PUZ_1].getStar() == 10)
+				dest1 = { (float)(tl.bg_o.x + (tl.bg_o.width * 0.75f)) + tl.icon1.width / 2.0f, (float)tl.icon1.y + (tl.icon1.height / 2.0f), (float)txtrWidth, (float)txtrHeight};
+			if (gA::puz[PUZ_2].getStar() == 10)
+				dest2 = { (float)(tl.bg_o.x + (tl.bg_o.width * 0.75f)) + tl.icon2.width / 2.0f, (float)tl.icon2.y + (tl.icon2.height / 2.0f), (float)txtrWidth, (float)txtrHeight };
+			if (gA::puz[PUZ_3].getStar() == 10)
+				dest3 = { (float)(tl.bg_o.x + (tl.bg_o.width * 0.75f)) + tl.icon3.width / 2.0f, (float)tl.icon3.y + (tl.icon3.height / 2.0f), (float)txtrWidth, (float)txtrHeight };
+		}
+
 		// Resize the texture and maintain quality if the screen dimension is updated
 		transformTextures();
 
@@ -62,8 +109,26 @@ int main()
 
 		// Functions and behaviors inside scenes
 		sceneFunctions();
-		if (Puzzle::isSolved() && gc.currentScene == Scene::BEGIN_PLAY_SCENE)
+		if (Puzzle::isSolved() && gc.currentScene == Scene::BEGIN_PLAY_SCENE) 
+		{
+			// Text results
 			textureTransform(ga.myBgBlankImage, ga.myBgBlankTexture, IMAGE_AS_BG);
+			textureTransform(ga.starImage[sl.slice], ga.starTexture[sl.slice], IMAGE_AS_ICON);
+
+			// STAR TESTING
+			if (gc.puz1selected) {
+				gA::puz[PUZ_1].setStar(sl.slice);
+				gc.puz1selected = false;
+			}
+			if (gc.puz2selected) {
+				gA::puz[PUZ_2].setStar(sl.slice);
+				gc.puz2selected = false;
+			}
+			if (gc.puz3selected){
+				gA::puz[PUZ_3].setStar(sl.slice);
+				gc.puz3selected = false;
+			}
+		}
 
 		// Keyboard controls for the system
 		UserControls::systemControls();
@@ -131,6 +196,36 @@ int main()
 					gc.puz2hover = false;
 					gc.puz3hover = false;
 				}
+
+				// Stars
+				if (gA::puz[PUZ_1].getStar() == 10) {
+					DrawTexturePro(ga.starTexture[gA::puz[PUZ_1].getStar()], src, dest1, org, rot, Fade(WHITE, gA::puz[PUZ_1].getOpacity()));
+				}
+				else {
+					DrawTexture(ga.starTexture[gA::puz[PUZ_1].getStar()],
+						(int)(tl.bg_o.x + (tl.bg_o.width * 0.75f)),
+						(int)tl.icon1.y,
+						Fade(WHITE, gA::puz[PUZ_1].getOpacity()));
+				}
+				if (gA::puz[PUZ_2].getStar() == 10) {
+					DrawTexturePro(ga.starTexture[gA::puz[PUZ_2].getStar()], src, dest2, org, rot, Fade(WHITE, gA::puz[PUZ_2].getOpacity()));
+				}
+				else {
+					DrawTexture(ga.starTexture[gA::puz[PUZ_2].getStar()],
+						(int)(tl.bg_o.x + (tl.bg_o.width * 0.75f)),
+						(int)tl.icon2.y,
+						Fade(WHITE, gA::puz[PUZ_2].getOpacity()));
+				}
+				if (gA::puz[PUZ_3].getStar() == 10) {
+					DrawTexturePro(ga.starTexture[gA::puz[PUZ_3].getStar()], src, dest3, org, rot, Fade(WHITE, gA::puz[PUZ_3].getOpacity()));
+				}
+				else {
+					DrawTexture(ga.starTexture[gA::puz[PUZ_3].getStar()],
+						(int)(tl.bg_o.x + (tl.bg_o.width * 0.75f)),
+						(int)tl.icon3.y,
+						Fade(WHITE, gA::puz[PUZ_3].getOpacity()));
+				}
+				rot++;		// rotation
 				
 				// Icons
 				DrawTexture(ga.puzzleImage1Texture, (int)tl.icon1.x, (int)tl.icon1.y, WHITE);
@@ -292,6 +387,14 @@ int main()
 			{
 				DrawRectangle(tl.bg.x, tl.bg.y, tl.bg.width, tl.bg.height, Fade(BLACK, 0.7f));
 				DrawTexture(ga.myBgBlankTexture, tl.bg.x, tl.bg.y, WHITE);			// Puzzle results are drawn here
+
+				if (sl.slice == 10) {
+					DrawTexturePro(ga.starTexture[sl.slice], src, dest1, org, rot, Fade(WHITE, Puzzle::getPercent(Puzzle::Counter::totalHint)));
+					rot++;
+				}
+				else {
+					DrawTexturePro(ga.starTexture[sl.slice], src, dest1, org, 0.0f, Fade(WHITE, Puzzle::getPercent(Puzzle::Counter::totalHint)));
+				}
 
 				gA::retryButton.draw({ (gc.currentWindowWidth / 2.0f) - (gA::retryButton.getButtonWidth() / 2.0f), 
 									(gc.currentWindowHeight / 1.9f) }, gc.clickLocation);

@@ -32,6 +32,9 @@ namespace gA {
 
 	// Win Scene
 	Button retryButton;
+
+	// Level Results
+	LevelResult puz[MAX_PUZ];
 }
 
 void LoadAssets()
@@ -41,9 +44,6 @@ void LoadAssets()
 	gc.puz1hover = false;
 	gc.puz2hover = false;
 	gc.puz3hover = false;
-
-	// Temp
-	//ga.tempImage;
 
 	// Backgrounds
 	ga.myBgImage = LoadImage("Resources/Images/bg.png");
@@ -68,6 +68,25 @@ void LoadAssets()
 	ga.puzzleImage2Texture = LoadTextureFromImage(ga.puzzleImage2);
 	ga.puzzleImage3 = LoadImage("Resources/Images/Icons/icon3.png");
 	ga.puzzleImage3Texture = LoadTextureFromImage(ga.puzzleImage3);
+	// Stars
+	ga.starImage[STAR_0] = LoadImage("Resources/Images/Rate/0.png");
+	ga.starImage[STAR_3] = LoadImage("Resources/Images/Rate/3.png");
+	ga.starImage[STAR_4] = LoadImage("Resources/Images/Rate/4.png");
+	ga.starImage[STAR_5] = LoadImage("Resources/Images/Rate/5.png");
+	ga.starImage[STAR_6] = LoadImage("Resources/Images/Rate/6.png");
+	ga.starImage[STAR_7] = LoadImage("Resources/Images/Rate/7.png");
+	ga.starImage[STAR_8] = LoadImage("Resources/Images/Rate/8.png");
+	ga.starImage[STAR_9] = LoadImage("Resources/Images/Rate/9.png");
+	ga.starImage[STAR_10] = LoadImage("Resources/Images/Rate/10.png");
+	ga.starTexture[STAR_0] = LoadTextureFromImage(ga.starImage[STAR_0]);
+	ga.starTexture[STAR_3] = LoadTextureFromImage(ga.starImage[STAR_3]);
+	ga.starTexture[STAR_4] = LoadTextureFromImage(ga.starImage[STAR_4]);
+	ga.starTexture[STAR_5] = LoadTextureFromImage(ga.starImage[STAR_5]);
+	ga.starTexture[STAR_6] = LoadTextureFromImage(ga.starImage[STAR_6]);
+	ga.starTexture[STAR_7] = LoadTextureFromImage(ga.starImage[STAR_7]);
+	ga.starTexture[STAR_8] = LoadTextureFromImage(ga.starImage[STAR_8]);
+	ga.starTexture[STAR_9] = LoadTextureFromImage(ga.starImage[STAR_9]);
+	ga.starTexture[STAR_10] = LoadTextureFromImage(ga.starImage[STAR_10]);
 
 	// THE IMAGE PUZZLE
 	ga.myPuzzleImage;
@@ -174,6 +193,25 @@ void UnloadAssets()
 	UnloadTexture(ga.puzzleImage2Texture);
 	UnloadImage(ga.puzzleImage3);
 	UnloadTexture(ga.puzzleImage3Texture);
+	// Stars
+	UnloadImage(ga.starImage[STAR_0]);
+	UnloadImage(ga.starImage[STAR_3]);
+	UnloadImage(ga.starImage[STAR_4]);
+	UnloadImage(ga.starImage[STAR_5]);
+	UnloadImage(ga.starImage[STAR_6]);
+	UnloadImage(ga.starImage[STAR_7]);
+	UnloadImage(ga.starImage[STAR_8]);
+	UnloadImage(ga.starImage[STAR_9]);
+	UnloadImage(ga.starImage[STAR_10]);
+	UnloadTexture(ga.starTexture[STAR_0]);
+	UnloadTexture(ga.starTexture[STAR_3]);
+	UnloadTexture(ga.starTexture[STAR_4]);
+	UnloadTexture(ga.starTexture[STAR_5]);
+	UnloadTexture(ga.starTexture[STAR_6]);
+	UnloadTexture(ga.starTexture[STAR_7]);
+	UnloadTexture(ga.starTexture[STAR_8]);
+	UnloadTexture(ga.starTexture[STAR_9]);
+	UnloadTexture(ga.starTexture[STAR_10]);
 
 	// The Image Puzzle
 	if (ga.myPuzzleImage.data != nullptr)

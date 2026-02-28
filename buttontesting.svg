@@ -28,8 +28,8 @@
      inkscape:deskcolor="#282828"
      inkscape:document-units="mm"
      inkscape:zoom="0.70710678"
-     inkscape:cx="791.95959"
-     inkscape:cy="724.78445"
+     inkscape:cx="954.59416"
+     inkscape:cy="898.73272"
      inkscape:window-width="1920"
      inkscape:window-height="1009"
      inkscape:window-x="-8"
@@ -9512,7 +9512,8 @@
        inkscape:label="10 star"
        inkscape:export-filename="Resources\Images\Rate\10.png"
        inkscape:export-xdpi="96"
-       inkscape:export-ydpi="96"><path
+       inkscape:export-ydpi="96"
+       transform="matrix(1.0000091,0,0,0.9044996,-0.06934479,22.259458)"><path
          sodipodi:type="star"
          style="fill:url(#linearGradient646);stroke:#000000;stroke-width:1.05;stroke-opacity:1"
          id="path645"

@@ -56,20 +56,24 @@ void sceneFunctions()
 		if (gc.puz1hover && IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
 			sceneSound(ga.selectSound);
 			theImagePuzzle(ga.myPuzzleImage, ga.puzzleImage1, ga.myPuzzleTexture);
+			gc.puz1selected = true;
 			gc.currentScene = Scene::CROP_SLICE_IMAGE_SCENE;
-			}
+		}
 		// Icon 2
 		if (gc.puz2hover && IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
 			sceneSound(ga.selectSound);
 			theImagePuzzle(ga.myPuzzleImage, ga.puzzleImage2, ga.myPuzzleTexture);
+			gc.puz2selected = true;
 			gc.currentScene = Scene::CROP_SLICE_IMAGE_SCENE;
 		}
 		// Icon 3
 		if (gc.puz3hover && IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
 			sceneSound(ga.selectSound);
 			theImagePuzzle(ga.myPuzzleImage, ga.puzzleImage3, ga.myPuzzleTexture);
+			gc.puz3selected = true;
 			gc.currentScene = Scene::CROP_SLICE_IMAGE_SCENE;
 		}
+
 		// Folder button open
 		if (gA::folderButton.isPressed()) {
 			sceneSound(ga.selectSound);
@@ -128,7 +132,7 @@ void sceneFunctions()
 		// Scene Updates
 		sceneMusic(ga.playMusic);
 		updateSlice();			// update the grid everytime when window is resized
-		Puzzle::update();		// update puzzle state (e.g. timer)
+		Puzzle::update();		// update puzzle state (e.g. timer, hint counter)
 		// Scene 4-5 switch
 		if (gA::pauseButton.isPressed()) {
 			sceneSound(ga.selectSound);
@@ -178,6 +182,9 @@ void sceneFunctions()
 		// Scene 4 updates
 		if (Puzzle::isSolved()) {
 			saveScore();
+			if (gc.puz1selected)	gA::puz[PUZ_1].setOpacity(Puzzle::getPercent(Puzzle::Counter::totalHint));
+			if (gc.puz2selected)	gA::puz[PUZ_2].setOpacity(Puzzle::getPercent(Puzzle::Counter::totalHint));
+			if (gc.puz3selected)	gA::puz[PUZ_3].setOpacity(Puzzle::getPercent(Puzzle::Counter::totalHint));
 
 			if (Audio::winSound) {
 				Audio::winSound = false;
@@ -210,6 +217,7 @@ void sceneFunctions()
 			FadeState::Reset();				// reset fade animation
 			gA::hint1.reset();				// reset hint1 state
 			gA::hint2.reset();				// reset hint2 state
+			Puzzle::_solved.clear();		// reset puzzle solver
 
 			// Then go to Scene 1
 			gc.currentScene = Scene::MENU_SCENE;
@@ -227,6 +235,7 @@ void sceneFunctions()
 		FadeState::Reset();				// reset fade animation
 		gA::hint1.reset();				// reset hint1 state
 		gA::hint2.reset();				// reset hint2 state
+		Puzzle::_solved.clear();		// reset puzzle solver
 
 		// Scene 6-4
 		if (gA::retryButton.isPressed()) {

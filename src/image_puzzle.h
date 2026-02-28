@@ -36,6 +36,7 @@ namespace Puzzle
 	    extern int move;        // number of moves taken
         extern int h1;          // number of hint 1 used
         extern int h2;          // number of hint 2 used
+        extern int totalHint;
     }
 
     namespace Timer
@@ -79,6 +80,9 @@ namespace Puzzle
 
     // movement
     bool tryMove(int dr, int dc); // dr = -1..1, dc = -1..1
+
+    // puzzle result opacity
+    float getPercent(int totalHints);
 }
 
 void theImagePuzzle(Image& myPuzzleImage, const Image& myImageChoosen, Texture& myPuzzleTexture);

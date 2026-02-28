@@ -28,6 +28,7 @@ namespace Puzzle::Counter
 	int move = 0;
     int h1 = 0;
     int h2 = 0;
+    int totalHint = 0;
 }
 
 namespace Puzzle::Timer
@@ -53,6 +54,11 @@ namespace Puzzle::Timer
             return TextFormat("%02d:%02d", minutes, seconds);
         return TextFormat("%02d", seconds);
     }
+}
+
+float Puzzle::getPercent(int totalHints)
+{
+    return (1.0f / (totalHints + 1.0f));
 }
 
 void theImagePuzzle(Image& myPuzzleImage, const Image& myImageChoosen, Texture& myPuzzleTexture)
@@ -190,6 +196,7 @@ void Puzzle::destroy()
     Counter::move = 0;
     Counter::h1 = 0;
     Counter::h2 = 0;
+    Counter::totalHint = 0;
 }
 
 // Update puzzle state
@@ -201,6 +208,8 @@ void Puzzle::update()
 		++Puzzle::Timer::totalSeconds;
 		Puzzle::Timer::elapsedTime -= 1.0f;
 	}
+    // Total hint counter
+    Counter::totalHint = Counter::h1 + Counter::h2;
 }
 
 bool Puzzle::tryMove(int dr, int dc)

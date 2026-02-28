@@ -54,6 +54,30 @@ enum DrawType {
 	RECTANGLE
 };
 
+enum Levels {
+	PUZ_1,
+	PUZ_2,
+	PUZ_3,
+
+	MAX_PUZ
+};
+
+enum StarRate {
+	STAR_0,
+	BLANK_1,
+	BLANK_2,
+	STAR_3,
+	STAR_4,
+	STAR_5,
+	STAR_6,
+	STAR_7,
+	STAR_8,
+	STAR_9,
+	STAR_10,
+
+	MAX_RATE
+};
+
 // Other config
 const char* toText(int num);
 
@@ -72,6 +96,10 @@ struct Config {
 	bool puz1hover;
 	bool puz2hover;
 	bool puz3hover;
+	// Confirm if selected
+	bool puz1selected;
+	bool puz2selected;
+	bool puz3selected;
 
 	// For mouse position every frame
 	Vector2 clickLocation;

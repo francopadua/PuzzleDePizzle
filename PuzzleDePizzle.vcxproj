@@ -139,7 +139,8 @@
     <ClCompile Include="src\image_slice.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\PuzzleResult.cpp" />
-    <ClCompile Include="src\SaveResults\Save.cpp" />
+    <ClCompile Include="src\SaveManager\LevelResults.cpp" />
+    <ClCompile Include="src\SaveManager\Save.cpp" />
     <ClCompile Include="src\scene_management.cpp" />
     <ClCompile Include="src\texture_location.cpp" />
     <ClCompile Include="src\ToggleButton.cpp" />
@@ -216,7 +217,8 @@
     <ClInclude Include="src\image_slice.h" />
     <ClInclude Include="src\PuzzleResult.h" />
     <ClInclude Include="src\Random.h" />
-    <ClInclude Include="src\SaveResults\Save.h" />
+    <ClInclude Include="src\SaveManager\LevelResults.h" />
+    <ClInclude Include="src\SaveManager\Save.h" />
     <ClInclude Include="src\scene_management.h" />
     <ClInclude Include="src\texture_location.h" />
     <ClInclude Include="src\ToggleButton.h" />

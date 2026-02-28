@@ -57,7 +57,10 @@
     <ClCompile Include="src\PuzzleResult.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\SaveResults\Save.cpp">
+    <ClCompile Include="src\SaveManager\Save.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SaveManager\LevelResults.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -280,7 +283,10 @@
     <ClInclude Include="src\PuzzleResult.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\SaveResults\Save.h">
+    <ClInclude Include="src\SaveManager\Save.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SaveManager\LevelResults.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

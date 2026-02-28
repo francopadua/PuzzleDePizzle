@@ -90,6 +90,9 @@ void textureTransform(const Image& image, Texture2D& texture, ImageType imageTyp
 		// For text attach to the 0 opacity blank BG image, so that I don't need to resize every Image text
 		if (texture.id == ga.myBgBlankTexture.id)
 		{
+			// This is some font transform trial and error fix because I wanted to just put it in a 
+			// blank Image ImageDrawTextEx so I don't need to do ImageTextEx every text that is drawn
+			// Ugliest implementation
 			if (Puzzle::isSolved()) {
 				// Format
 				/*
@@ -133,7 +136,6 @@ void textureTransform(const Image& image, Texture2D& texture, ImageType imageTyp
 
 		UnloadImage(temp);
 		temp2 = {};
-		//ga.tempImage = {};
 	}
 }
 
@@ -184,6 +186,10 @@ void transformTextures()
 		textureTransform(ga.puzzleImage1, ga.puzzleImage1Texture, IMAGE_AS_ICON);
 		textureTransform(ga.puzzleImage2, ga.puzzleImage2Texture, IMAGE_AS_ICON);
 		textureTransform(ga.puzzleImage3, ga.puzzleImage3Texture, IMAGE_AS_ICON);
+		textureTransform(ga.starImage[gA::puz[PUZ_1].getStar()], ga.starTexture[gA::puz[PUZ_1].getStar()], IMAGE_AS_ICON);
+		textureTransform(ga.starImage[gA::puz[PUZ_2].getStar()], ga.starTexture[gA::puz[PUZ_2].getStar()], IMAGE_AS_ICON);
+		textureTransform(ga.starImage[gA::puz[PUZ_3].getStar()], ga.starTexture[gA::puz[PUZ_3].getStar()], IMAGE_AS_ICON);
+		textureTransform(ga.starImage[sl.slice], ga.starTexture[sl.slice], IMAGE_AS_ICON);
 
 		// Text as images
 		// Choose Image Scene
