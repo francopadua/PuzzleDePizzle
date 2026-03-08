@@ -116,6 +116,7 @@ namespace gA {
 
 	// Level Results
 	extern LevelResult puz[MAX_PUZ];
+	extern std::vector<LevelResultData> saveData;
 
 	void LoadClassedAssets();
 }

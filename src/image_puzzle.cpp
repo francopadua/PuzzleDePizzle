@@ -28,7 +28,7 @@ namespace Puzzle::Counter
 	int move = 0;
     int h1 = 0;
     int h2 = 0;
-    int totalHint = 0;
+    float totalHint = 0.0f;
 }
 
 namespace Puzzle::Timer
@@ -54,11 +54,6 @@ namespace Puzzle::Timer
             return TextFormat("%02d:%02d", minutes, seconds);
         return TextFormat("%02d", seconds);
     }
-}
-
-float Puzzle::getPercent(int totalHints)
-{
-    return (1.0f / (totalHints + 1.0f));
 }
 
 void theImagePuzzle(Image& myPuzzleImage, const Image& myImageChoosen, Texture& myPuzzleTexture)
@@ -209,7 +204,7 @@ void Puzzle::update()
 		Puzzle::Timer::elapsedTime -= 1.0f;
 	}
     // Total hint counter
-    Counter::totalHint = Counter::h1 + Counter::h2;
+    Counter::totalHint = Counter::h1 + (Counter::h2 * 0.25f);
 }
 
 bool Puzzle::tryMove(int dr, int dc)
@@ -237,6 +232,12 @@ bool Puzzle::tryMove(int dr, int dc)
     sceneSound(ga.slideSound);
 
     return true;
+}
+
+// Get result percentage
+float Puzzle::getPercent(float totalHints)
+{
+    return (1.0f / (totalHints + 1.0f));
 }
 
 void saveScore()

@@ -35,6 +35,7 @@ namespace gA {
 
 	// Level Results
 	LevelResult puz[MAX_PUZ];
+	std::vector<LevelResultData> saveData;
 }
 
 void LoadAssets()
@@ -154,7 +155,7 @@ void gA::LoadClassedAssets()
 
 	// Begin Play Scene
 	pauseButton.load(LoadImage("Resources/Images/pause_button_up.png"), LoadImage("Resources/Images/pause_button_down.png"), MEDIUM);
-	hint1.load(LoadImage("Resources/Images/tog_h1_up.png"), LoadImage("Resources/Images/tog_h1_down.png"), LoadImage("Resources/Images/tog_h1_disabled.png"), MEDIUM, true, 120.0f);
+	hint1.load(LoadImage("Resources/Images/tog_h1_up.png"), LoadImage("Resources/Images/tog_h1_down.png"), LoadImage("Resources/Images/tog_h1_disabled.png"), MEDIUM, true, 1.0f);
 	hint2.load(LoadImage("Resources/Images/tog_h2_up.png"), LoadImage("Resources/Images/tog_h2_down.png"), LoadImage("Resources/Images/tog_h2_disabled.png"), MEDIUM, true, 30.0f);
 
 	// Pause Scene

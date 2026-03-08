@@ -20,6 +20,7 @@ namespace Delay
 namespace FadeState
 {
 	extern float alpha;
+	extern float alphaOut;
 	extern float alphaOutText;
 	extern float alphaOutTexture;
 	extern float alphaOutRec;

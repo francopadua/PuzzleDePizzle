@@ -13,6 +13,7 @@ namespace Delay
 namespace FadeState
 {
 	float alpha = 0.0f;
+	float alphaOut = 1.0f;
 	float alphaOutText = 1.0f;
 	float alphaOutTexture = 0.9f;
 	float alphaOutRec = 1.0f;
@@ -33,6 +34,9 @@ void FadeState::Update()
 {
 	alpha += fadeSpeed * Game::getFrame();
 	if (alpha > 1.0f) alpha = 1.0f;
+
+	if (gc.currentScene == Scene::CROP_SLICE_IMAGE_SCENE) {
+	}
 }
 void FadeState::Out(int seconds, DrawType drawType)
 {
@@ -57,6 +61,7 @@ void FadeState::Out(int seconds, DrawType drawType)
 void FadeState::Reset()
 {
 	alpha = 0.0f;
+	alphaOut = 1.0f;
 	alphaOutText = 1.0f;
 	alphaOutTexture = 0.9f;
 }

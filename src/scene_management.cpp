@@ -1,5 +1,8 @@
 #include "scene_management.h"
 
+// TESTING
+bool loopOnce = true;
+
 void sceneMusic(Music& music)
 {
 	if (gA::musicButton.isToggled()) {
@@ -96,13 +99,27 @@ void sceneFunctions()
 		// Scene Music
 		sceneMusic(ga.menuMusic);
 
+		// Some outside animation update
+		FadeState::alphaOut -= FadeState::fadeSpeed * Game::getFrame();
+		if (FadeState::alphaOut < 0.0f) FadeState::alphaOut = 0.0f;
+
 		// Scene 3-2 switch
 		if (gA::backButton.isPressed()) {
 			sceneSound(ga.selectSound);
 			if (ga.myPuzzleTexture.id != 0) {
 				UnloadTexture(ga.myPuzzleTexture);
 			}
+
+			// Reset previous scene state
+			gc.puz1hover = false;
+			gc.puz2hover = false;
+			gc.puz3hover = false;
+			gc.puz1selected = false;
+			gc.puz2selected = false;
+			gc.puz3selected = false;
+
 			gc.currentScene = Scene::CHOOSE_IMAGE_SCENE;
+			FadeState::alphaOut = 1.0f;
 		}
 
 		// Scene 3-4 switch
@@ -114,14 +131,19 @@ void sceneFunctions()
 			gc.currentScene = Scene::BEGIN_PLAY_SCENE;
 			PlayMusicStream(ga.playMusic);
 		}
+
 		// Scene 3 actions
 		if (gA::plusButton.isPressed()) {
 			sceneSound(ga.selectSound);
+			textureTransform(ga.starImage[sl.slice], ga.starTexture[sl.slice], IMAGE_AS_ICON);
 			sl.slice++;
+			FadeState::alphaOut = 1.0f;
 		}
 		if (gA::subButton.isPressed()) {
 			sceneSound(ga.selectSound);
+			textureTransform(ga.starImage[sl.slice], ga.starTexture[sl.slice], IMAGE_AS_ICON);
 			sl.slice--;
+			FadeState::alphaOut = 1.0f;
 		}
 		// Slice the image
 		sl.applySlice();
@@ -180,16 +202,48 @@ void sceneFunctions()
 		}
 
 		// Scene 4 updates
-		if (Puzzle::isSolved()) {
+		if (Puzzle::isSolved() && loopOnce) {
+			// Save the puzzle state first
 			saveScore();
-			if (gc.puz1selected)	gA::puz[PUZ_1].setOpacity(Puzzle::getPercent(Puzzle::Counter::totalHint));
-			if (gc.puz2selected)	gA::puz[PUZ_2].setOpacity(Puzzle::getPercent(Puzzle::Counter::totalHint));
-			if (gc.puz3selected)	gA::puz[PUZ_3].setOpacity(Puzzle::getPercent(Puzzle::Counter::totalHint));
+
+			// Then set the relevant results to the selected puzzle
+			// Then also store it to the saveData first before overwriting the file
+			// Ugly code, I will fix this soon
+			if (gc.puz1selected) {
+				gA::puz[PUZ_1].setStar(sl.slice, Puzzle::getPercent(Puzzle::Counter::totalHint));
+				gA::saveData[PUZ_1].slice = gA::puz[PUZ_1].getStar();
+				gA::saveData[PUZ_1].starOpacity = gA::puz[PUZ_1].getOpacity();
+				gA::saveData[PUZ_1].percent = gA::puz[PUZ_1].getPercent();
+				//gA::saveData[PUZ_1].solved = gA::puz[PUZ_1].isSolved();
+			}
+			if (gc.puz2selected) {
+				gA::puz[PUZ_2].setStar(sl.slice, Puzzle::getPercent(Puzzle::Counter::totalHint));
+				gA::saveData[PUZ_2].slice = gA::puz[PUZ_2].getStar();
+				gA::saveData[PUZ_2].starOpacity = gA::puz[PUZ_2].getOpacity();
+				gA::saveData[PUZ_2].percent = gA::puz[PUZ_2].getPercent();
+				//gA::saveData[PUZ_2].solved = gA::puz[PUZ_2].isSolved();
+			}
+			if (gc.puz3selected){
+				gA::puz[PUZ_3].setStar(sl.slice, Puzzle::getPercent(Puzzle::Counter::totalHint));
+				gA::saveData[PUZ_3].slice = gA::puz[PUZ_3].getStar();
+				gA::saveData[PUZ_3].starOpacity = gA::puz[PUZ_3].getOpacity();
+				gA::saveData[PUZ_3].percent = gA::puz[PUZ_3].getPercent();
+				//gA::saveData[PUZ_3].solved = gA::puz[PUZ_3].isSolved();
+			}
+
+			// Then overwrite
+			SaveSystem::Save("user.puzdat", gA::saveData);
 
 			if (Audio::winSound) {
 				Audio::winSound = false;
 				sceneSound(ga.solvedSound);
 			}
+
+			// Text results
+			textureTransform(ga.myBgBlankImage, ga.myBgBlankTexture, IMAGE_AS_BG);
+			textureTransform(ga.starImage[sl.slice], ga.starTexture[sl.slice], IMAGE_AS_ICON);
+
+			loopOnce = false;
 		}
 	}
 
@@ -219,6 +273,13 @@ void sceneFunctions()
 			gA::hint2.reset();				// reset hint2 state
 			Puzzle::_solved.clear();		// reset puzzle solver
 
+			gc.puz1hover = false;
+			gc.puz2hover = false;
+			gc.puz3hover = false;
+			gc.puz1selected = false;
+			gc.puz2selected = false;
+			gc.puz3selected = false;
+
 			// Then go to Scene 1
 			gc.currentScene = Scene::MENU_SCENE;
 		}
@@ -231,6 +292,7 @@ void sceneFunctions()
 
 		// Reset everything
 		Audio::winSound = true;			// reset win sound
+		loopOnce = true;
 		Delay::Reset();					// reset delay
 		FadeState::Reset();				// reset fade animation
 		gA::hint1.reset();				// reset hint1 state
@@ -258,6 +320,14 @@ void sceneFunctions()
 			// Destroy the puzzle
 			Puzzle::destroy();
 			UnloadTexture(ga.myPuzzleTexture);
+
+			// Reset selection
+			gc.puz1hover = false;
+			gc.puz2hover = false;
+			gc.puz3hover = false;
+			gc.puz1selected = false;
+			gc.puz2selected = false;
+			gc.puz3selected = false;
 
 			// Then go to Scene 1
 			gc.currentScene = Scene::MENU_SCENE;

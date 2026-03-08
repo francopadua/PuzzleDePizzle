@@ -1,7 +1,11 @@
 #pragma once
 
 #include <algorithm>
+#include <cmath>
+#include <iomanip>
+#include <iostream>
 #include <string>
+#include <sstream>
 #include <raylib.h>
 
 // Window minimum size
@@ -80,6 +84,7 @@ enum StarRate {
 
 // Other config
 const char* toText(int num);
+const char* floatToText(float num);
 
 struct Config {
 	// For updating window size

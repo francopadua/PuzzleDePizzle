@@ -169,7 +169,8 @@ void transformTextures()
 	{
 		// The choosed image
 		textureTransform(ga.myPuzzleImage, ga.myPuzzleTexture, IMAGE_AS_PUZZLE);
-		arrayTransform();
+		if (gc.currentScene == Scene::BEGIN_PLAY_SCENE)
+			arrayTransform();
 
 		// Background contents
 		textureTransform(ga.myBgImage, ga.myBgTexture, IMAGE_AS_BG);
