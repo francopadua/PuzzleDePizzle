@@ -217,6 +217,8 @@ void transformTextures()
 		// Choose Image Scene
 		gA::backButton.scaled(ga.myBgTexture.width, ga.myBgTexture.height, MEDIUM);
 		gA::folderButton.scaled(ga.myBgTexture.width, ga.myBgTexture.height, MEDIUM);
+		gA::nextButton.scaled(ga.myBgTexture.width, ga.myBgTexture.height, SMALL);
+		gA::prevButton.scaled(ga.myBgTexture.width, ga.myBgTexture.height, SMALL);
 
 		// Slice Image Scene
 		gA::plusButton.scaled(ga.myBgTexture.width, ga.myBgTexture.height, SMALL);

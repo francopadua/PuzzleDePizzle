@@ -5,6 +5,8 @@ VisualStudioVersion = 17.8.35931.193
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PuzzleDePizzle", "PuzzleDePizzle.vcxproj", "{2CB968C3-7A65-47D3-B151-986C2D663073}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PuzzleDePizzleResCompiler", "PuzzleDePizzleResCompiler\PuzzleDePizzleResCompiler.vcxproj", "{650E53EF-F9FF-4ABC-A377-3CDD858111F2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{2CB968C3-7A65-47D3-B151-986C2D663073}.Release|x64.Build.0 = Release|x64
 		{2CB968C3-7A65-47D3-B151-986C2D663073}.Release|x86.ActiveCfg = Release|Win32
 		{2CB968C3-7A65-47D3-B151-986C2D663073}.Release|x86.Build.0 = Release|Win32
+		{650E53EF-F9FF-4ABC-A377-3CDD858111F2}.Debug|x64.ActiveCfg = Debug|x64
+		{650E53EF-F9FF-4ABC-A377-3CDD858111F2}.Debug|x64.Build.0 = Debug|x64
+		{650E53EF-F9FF-4ABC-A377-3CDD858111F2}.Debug|x86.ActiveCfg = Debug|Win32
+		{650E53EF-F9FF-4ABC-A377-3CDD858111F2}.Debug|x86.Build.0 = Debug|Win32
+		{650E53EF-F9FF-4ABC-A377-3CDD858111F2}.Release|x64.ActiveCfg = Release|x64
+		{650E53EF-F9FF-4ABC-A377-3CDD858111F2}.Release|x64.Build.0 = Release|x64
+		{650E53EF-F9FF-4ABC-A377-3CDD858111F2}.Release|x86.ActiveCfg = Release|Win32
+		{650E53EF-F9FF-4ABC-A377-3CDD858111F2}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

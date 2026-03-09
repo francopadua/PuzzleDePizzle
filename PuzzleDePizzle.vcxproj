@@ -139,6 +139,7 @@
     <ClCompile Include="src\image_slice.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\PuzzleResult.cpp" />
+    <ClCompile Include="src\ResManager.cpp" />
     <ClCompile Include="src\SaveManager\LevelResults.cpp" />
     <ClCompile Include="src\SaveManager\Save.cpp" />
     <ClCompile Include="src\scene_management.cpp" />
@@ -158,6 +159,7 @@
     <Image Include="Resources\Images\exit_button_up.png" />
     <Image Include="Resources\Images\folder_down.png" />
     <Image Include="Resources\Images\folder_up.png" />
+    <Image Include="Resources\Images\game_icon.png" />
     <Image Include="Resources\Images\Icons\icon1.png" />
     <Image Include="Resources\Images\Icons\icon2.png" />
     <Image Include="Resources\Images\Icons\icon3.png" />
@@ -217,6 +219,7 @@
     <ClInclude Include="src\image_slice.h" />
     <ClInclude Include="src\PuzzleResult.h" />
     <ClInclude Include="src\Random.h" />
+    <ClInclude Include="src\ResManager.h" />
     <ClInclude Include="src\SaveManager\LevelResults.h" />
     <ClInclude Include="src\SaveManager\Save.h" />
     <ClInclude Include="src\scene_management.h" />

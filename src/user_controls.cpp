@@ -31,12 +31,12 @@ void UserControls::userControls()
 	}
 
 	// GOD MODE
-	if (gc.currentScene == Scene::BEGIN_PLAY_SCENE)
-	{
-		if (IsKeyDown(KEY_SPACE)) {
-			for (int i{ 0 }; i < Puzzle::puz_guide.size(); ++i) {
-				Puzzle::puz_guide[i] = Puzzle::_solved[i];
-			}
-		}
-	}
+	//if (gc.currentScene == Scene::BEGIN_PLAY_SCENE)
+	//{
+	//	if (IsKeyDown(KEY_SPACE)) {
+	//		for (int i{ 0 }; i < Puzzle::puz_guide.size(); ++i) {
+	//			Puzzle::puz_guide[i] = Puzzle::_solved[i];
+	//		}
+	//	}
+	//}
 }

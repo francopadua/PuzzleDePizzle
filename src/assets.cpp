@@ -3,6 +3,7 @@
 #include "transform.h"
 #include <iostream>
 
+ResManager gRes;
 Assets ga{};
 
 namespace gA {
@@ -15,6 +16,8 @@ namespace gA {
 	// Choose Image Scene
 	Button backButton;
 	Button folderButton;
+	Button nextButton;
+	Button prevButton;
 
 	// Slice Image Scene
 	Button plusButton;
@@ -42,6 +45,7 @@ void LoadAssets()
 {
 	// From Config
 	gc.currentScene = Scene::MENU_SCENE;
+	gc.currentPage = Pages::PAGE_1;
 	gc.puz1hover = false;
 	gc.puz2hover = false;
 	gc.puz3hover = false;
@@ -63,22 +67,47 @@ void LoadAssets()
 	ga.myTitleTexture = LoadTextureFromImage(ga.myTitle);
 
 	// Built-in puzzle image
-	ga.puzzleImage1 = LoadImage("Resources/Images/Icons/icon1.png");
+	//ga.puzzleImage1 = LoadImage("Resources/Images/Icons/icon1.png");
+	auto data = gRes.Get("Icons/icon1.png");
+	ga.puzzleImage1 = LoadImageFromMemory(".png", data.data(), data.size());
 	ga.puzzleImage1Texture = LoadTextureFromImage(ga.puzzleImage1);
-	ga.puzzleImage2 = LoadImage("Resources/Images/Icons/icon2.png");
+	//ga.puzzleImage2 = LoadImage("Resources/Images/Icons/icon2.png");
+	data = gRes.Get("Icons/icon2.png");
+	ga.puzzleImage2 = LoadImageFromMemory(".png", data.data(), data.size());
 	ga.puzzleImage2Texture = LoadTextureFromImage(ga.puzzleImage2);
-	ga.puzzleImage3 = LoadImage("Resources/Images/Icons/icon3.png");
+	//ga.puzzleImage3 = LoadImage("Resources/Images/Icons/icon3.png");
+	data = gRes.Get("Icons/icon3.png");
+	ga.puzzleImage3 = LoadImageFromMemory(".png", data.data(), data.size());
 	ga.puzzleImage3Texture = LoadTextureFromImage(ga.puzzleImage3);
 	// Stars
-	ga.starImage[STAR_0] = LoadImage("Resources/Images/Rate/0.png");
-	ga.starImage[STAR_3] = LoadImage("Resources/Images/Rate/3.png");
-	ga.starImage[STAR_4] = LoadImage("Resources/Images/Rate/4.png");
-	ga.starImage[STAR_5] = LoadImage("Resources/Images/Rate/5.png");
-	ga.starImage[STAR_6] = LoadImage("Resources/Images/Rate/6.png");
-	ga.starImage[STAR_7] = LoadImage("Resources/Images/Rate/7.png");
-	ga.starImage[STAR_8] = LoadImage("Resources/Images/Rate/8.png");
-	ga.starImage[STAR_9] = LoadImage("Resources/Images/Rate/9.png");
-	ga.starImage[STAR_10] = LoadImage("Resources/Images/Rate/10.png");
+	//ga.starImage[STAR_0] = LoadImage("Resources/Images/Rate/0.png");
+	//ga.starImage[STAR_3] = LoadImage("Resources/Images/Rate/3.png");
+	//ga.starImage[STAR_4] = LoadImage("Resources/Images/Rate/4.png");
+	//ga.starImage[STAR_5] = LoadImage("Resources/Images/Rate/5.png");
+	//ga.starImage[STAR_6] = LoadImage("Resources/Images/Rate/6.png");
+	//ga.starImage[STAR_7] = LoadImage("Resources/Images/Rate/7.png");
+	//ga.starImage[STAR_8] = LoadImage("Resources/Images/Rate/8.png");
+	//ga.starImage[STAR_9] = LoadImage("Resources/Images/Rate/9.png");
+	//ga.starImage[STAR_10] = LoadImage("Resources/Images/Rate/10.png");
+	data = gRes.Get("Rate/0.png");
+	ga.starImage[STAR_0] = LoadImageFromMemory(".png", data.data(), data.size());
+	data = gRes.Get("Rate/3.png");
+	ga.starImage[STAR_3] = LoadImageFromMemory(".png", data.data(), data.size());
+	data = gRes.Get("Rate/4.png");
+	ga.starImage[STAR_4] = LoadImageFromMemory(".png", data.data(), data.size());
+	data = gRes.Get("Rate/5.png");
+	ga.starImage[STAR_5] = LoadImageFromMemory(".png", data.data(), data.size());
+	data = gRes.Get("Rate/6.png");
+	ga.starImage[STAR_6] = LoadImageFromMemory(".png", data.data(), data.size());
+	data = gRes.Get("Rate/7.png");
+	ga.starImage[STAR_7] = LoadImageFromMemory(".png", data.data(), data.size());
+	data = gRes.Get("Rate/8.png");
+	ga.starImage[STAR_8] = LoadImageFromMemory(".png", data.data(), data.size());
+	data = gRes.Get("Rate/9.png");
+	ga.starImage[STAR_9] = LoadImageFromMemory(".png", data.data(), data.size());
+	data = gRes.Get("Rate/10.png");
+	ga.starImage[STAR_10] = LoadImageFromMemory(".png", data.data(), data.size());
+
 	ga.starTexture[STAR_0] = LoadTextureFromImage(ga.starImage[STAR_0]);
 	ga.starTexture[STAR_3] = LoadTextureFromImage(ga.starImage[STAR_3]);
 	ga.starTexture[STAR_4] = LoadTextureFromImage(ga.starImage[STAR_4]);
@@ -147,6 +176,8 @@ void gA::LoadClassedAssets()
 	// Choose Image Scene
 	backButton.load(LoadImage("Resources/Images/back_button_up.png"), LoadImage("Resources/Images/back_button_down.png"), MEDIUM);
 	folderButton.load(LoadImage("Resources/Images/folder_up.png"), LoadImage("Resources/Images/folder_down.png"), MEDIUM);
+	nextButton.load(LoadImage("Resources/Images/next_button_up.png"), LoadImage("Resources/Images/next_button_down.png"), MEDIUM);
+	prevButton.load(LoadImage("Resources/Images/prev_button_up.png"), LoadImage("Resources/Images/prev_button_down.png"), MEDIUM);
 
 	// Slice Image Scene
 	plusButton.load(LoadImage("Resources/Images/plus_up.png"), LoadImage("Resources/Images/plus_down.png"), MEDIUM);
@@ -155,7 +186,7 @@ void gA::LoadClassedAssets()
 
 	// Begin Play Scene
 	pauseButton.load(LoadImage("Resources/Images/pause_button_up.png"), LoadImage("Resources/Images/pause_button_down.png"), MEDIUM);
-	hint1.load(LoadImage("Resources/Images/tog_h1_up.png"), LoadImage("Resources/Images/tog_h1_down.png"), LoadImage("Resources/Images/tog_h1_disabled.png"), MEDIUM, true, 1.0f);
+	hint1.load(LoadImage("Resources/Images/tog_h1_up.png"), LoadImage("Resources/Images/tog_h1_down.png"), LoadImage("Resources/Images/tog_h1_disabled.png"), MEDIUM, true, 120.0f);
 	hint2.load(LoadImage("Resources/Images/tog_h2_up.png"), LoadImage("Resources/Images/tog_h2_down.png"), LoadImage("Resources/Images/tog_h2_disabled.png"), MEDIUM, true, 30.0f);
 
 	// Pause Scene
@@ -270,6 +301,10 @@ void UnloadAssets()
 	gA::backButton.unloadTexture();
 	gA::folderButton.unloadImage();
 	gA::folderButton.unloadTexture();
+	gA::nextButton.unloadImage();
+	gA::nextButton.unloadTexture();
+	gA::prevButton.unloadImage();
+	gA::prevButton.unloadTexture();
 
 	// Slice Image Scene
 	gA::plusButton.unloadImage();

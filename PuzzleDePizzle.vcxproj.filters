@@ -63,6 +63,9 @@
     <ClCompile Include="src\SaveManager\LevelResults.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\ResManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\Images\bertface.png">
@@ -239,6 +242,9 @@
     <Image Include="Resources\Images\Rate\10.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Resources\Images\game_icon.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\image_slice.h">
@@ -287,6 +293,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\SaveManager\LevelResults.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ResManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -3,8 +3,11 @@
 #include <array>
 #include "config.h"
 #include "Button.h"
+#include "ResManager.h"
 #include "SaveManager/LevelResults.h"
 #include "ToggleButton.h"
+
+extern ResManager gRes;
 
 struct Assets {
 	// Temporary
@@ -96,6 +99,8 @@ namespace gA {
 	// Choose Image Scene
 	extern Button backButton;
 	extern Button folderButton;
+	extern Button nextButton;
+	extern Button prevButton;
 
 	// Slice Image Scene
 	extern Button plusButton;

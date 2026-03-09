@@ -66,6 +66,13 @@ enum Levels {
 	MAX_PUZ
 };
 
+enum Pages {
+	PAGE_1,
+	PAGE_2,
+
+	MAX_PAGES
+};
+
 enum StarRate {
 	STAR_0,
 	BLANK_1,
@@ -93,6 +100,7 @@ struct Config {
 
 	// For updating scene
 	Scene currentScene;
+	Pages currentPage;
 
 	// For relative font scaling
 	float fontScaled;

@@ -36,16 +36,22 @@ int main()
 	// Initialize window
 	SetConfigFlags(FLAG_VSYNC_HINT | FLAG_WINDOW_RESIZABLE);
 	InitWindow(screenWidth, screenHeight, "PuzzleDePizzle");
+	Image windowIcon = LoadImage("Resources/Images/game_icon.png");
+	ImageFormat(&windowIcon, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8);
+	SetWindowIcon(windowIcon);
+	UnloadImage(windowIcon);
 	
 	SetWindowMinSize(screenWidth, screenHeight);
 	//MaximizeWindow();
 	SetTargetFPS(60);
+	SetExitKey(KEY_NULL);
 
 	// Init Audio device
 	InitAudioDevice();
 	SetMasterVolume(1.0f);
 	
 	// Initialize all assets
+	gRes.Load("game.puzres");
 	LoadAssets();
 	gA::LoadClassedAssets();
 	gc.fontScaled = getScaledFont(GetScreenWidth(), GetScreenHeight());
@@ -140,8 +146,8 @@ int main()
 		DrawTexture(ga.myBgBorderTexture[1], tl.bg.x - ga.myBgBorderTexture[1].width, tl.bg.y, WHITE);
 		DrawTexture(ga.myBgBorderTexture[1], (tl.bg.x + tl.bg.width), tl.bg.y, WHITE);
 
-		DrawText(mX, 0, 0, fontSizeSmall, BLACK);
-		DrawText(mY, 0, 30, fontSizeSmall, BLACK);
+		//DrawText(mX, 0, 0, fontSizeSmall, BLACK);
+		//DrawText(mY, 0, 30, fontSizeSmall, BLACK);
 
 		switch (gc.currentScene)
 		{
@@ -152,7 +158,7 @@ int main()
 
 				// Temporary
 				DrawTextEx(ga.myFontSmall, "Game by:", { tl.bg.x + tl.bg.width - myString("Game by:").x, tl.bg.y + tl.bg.height - (fontSizeSmall * 2) }, gc.fontScaled, fontSpacing, BLACK);
-				DrawTextEx(ga.myFontSmall, "Frankrev", { tl.bg.x + tl.bg.width - myString("Frankrev").x, tl.bg.y + tl.bg.height - fontSizeSmall }, gc.fontScaled, fontSpacing, BLACK);
+				DrawTextEx(ga.myFontSmall, "Franco Padua", { tl.bg.x + tl.bg.width - myString("Franco Padua").x, tl.bg.y + tl.bg.height - fontSizeSmall }, gc.fontScaled, fontSpacing, BLACK);
 
 				// Buttons
 				gA::playButton.draw({ (gc.currentWindowWidth / 2.0f) - (gA::playButton.getButtonWidth() / 2.0f), 
@@ -170,117 +176,132 @@ int main()
 
 				gA::backButton.draw({ (tl.bg.x) * 1.04f, tl.bg.y + 10.0f }, gc.clickLocation);
 				gA::folderButton.draw({ (tl.bg.x + tl.bg.width) * 0.9f, tl.bg.y + 10.0f }, gc.clickLocation);
+				gA::prevButton.draw({ tl.bg_o.x + (tl.bg_o.width / 2.0f) - (gA::prevButton.getButtonWidth() + 10.0f), (tl.bg_o.y + tl.bg_o.height)}, gc.clickLocation);
+				gA::nextButton.draw({ tl.bg_o.x + (tl.bg_o.width / 2.0f) + 10.0f, (tl.bg_o.y + tl.bg_o.height) }, gc.clickLocation);
 
-				// Rectangle selection
-				if (CheckCollisionPointRec(gc.clickLocation, tl.icon1sel)) {
-					DrawRectangleRec(tl.icon1sel, SKYBLUE);
-					gc.puz1hover = true;
-				}
-				else if (CheckCollisionPointRec(gc.clickLocation, tl.icon2sel)) {
-					DrawRectangleRec(tl.icon2sel, YELLOW);
-					gc.puz2hover = true;
-				}
-				else if (CheckCollisionPointRec(gc.clickLocation, tl.icon3sel)) {
-					DrawRectangleRec(tl.icon3sel, GREEN);
-					gc.puz3hover = true;
-				}
-				else {
-					gc.puz1hover = false;
-					gc.puz2hover = false;
-					gc.puz3hover = false;
+
+				if (gc.currentPage == Pages::PAGE_1) {
+					// Rectangle selection
+					if (CheckCollisionPointRec(gc.clickLocation, tl.icon1sel)) {
+						DrawRectangleRec(tl.icon1sel, SKYBLUE);
+						gc.puz1hover = true;
+					}
+					else if (CheckCollisionPointRec(gc.clickLocation, tl.icon2sel)) {
+						DrawRectangleRec(tl.icon2sel, YELLOW);
+						gc.puz2hover = true;
+					}
+					else if (CheckCollisionPointRec(gc.clickLocation, tl.icon3sel)) {
+						DrawRectangleRec(tl.icon3sel, GREEN);
+						gc.puz3hover = true;
+					}
+					else {
+						gc.puz1hover = false;
+						gc.puz2hover = false;
+						gc.puz3hover = false;
+					}
+
+					// Stars
+					if (gA::puz[PUZ_1].getStar() == 10) {
+						DrawTexturePro(ga.starTexture[gA::puz[PUZ_1].getStar()], src, dest1, org, rot, Fade(WHITE, gA::puz[PUZ_1].getOpacity()));
+					}
+					else {
+						// Shadow
+						DrawTexture(ga.starTexture[gA::puz[PUZ_1].getStar()],
+							(int)(tl.bg_o.x + (tl.bg_o.width * 0.75f)),
+							(int)tl.icon1.y,
+							Fade(BLACK, 0.3f));
+
+						// Star
+						DrawTexture(ga.starTexture[gA::puz[PUZ_1].getStar()],
+							(int)(tl.bg_o.x + (tl.bg_o.width * 0.75f)),
+							(int)tl.icon1.y,
+							Fade(WHITE, gA::puz[PUZ_1].getOpacity()));
+					}
+					if (gA::puz[PUZ_2].getStar() == 10) {
+						DrawTexturePro(ga.starTexture[gA::puz[PUZ_2].getStar()], src, dest2, org, rot, Fade(WHITE, gA::puz[PUZ_2].getOpacity()));
+					}
+					else {
+						// Shadow
+						DrawTexture(ga.starTexture[gA::puz[PUZ_2].getStar()],
+							(int)(tl.bg_o.x + (tl.bg_o.width * 0.75f)),
+							(int)tl.icon2.y,
+							Fade(BLACK, 0.3f));
+
+						// Star
+						DrawTexture(ga.starTexture[gA::puz[PUZ_2].getStar()],
+							(int)(tl.bg_o.x + (tl.bg_o.width * 0.75f)),
+							(int)tl.icon2.y,
+							Fade(WHITE, gA::puz[PUZ_2].getOpacity()));
+					}
+					if (gA::puz[PUZ_3].getStar() == 10) {
+						DrawTexturePro(ga.starTexture[gA::puz[PUZ_3].getStar()], src, dest3, org, rot, Fade(WHITE, gA::puz[PUZ_3].getOpacity()));
+					}
+					else {
+						// Shadow
+						DrawTexture(ga.starTexture[gA::puz[PUZ_3].getStar()],
+							(int)(tl.bg_o.x + (tl.bg_o.width * 0.75f)),
+							(int)tl.icon3.y,
+							Fade(BLACK, 0.3f));
+
+						// Star
+						DrawTexture(ga.starTexture[gA::puz[PUZ_3].getStar()],
+							(int)(tl.bg_o.x + (tl.bg_o.width * 0.75f)),
+							(int)tl.icon3.y,
+							Fade(WHITE, gA::puz[PUZ_3].getOpacity()));
+					}
+					rot++;		// rotation
+					
+					// Icons
+					DrawTexture(ga.puzzleImage1Texture, (int)tl.icon1.x, (int)tl.icon1.y, WHITE);
+					DrawTexture(ga.puzzleImage2Texture, (int)tl.icon2.x, (int)tl.icon2.y, WHITE);
+					DrawTexture(ga.puzzleImage3Texture, (int)tl.icon3.x, (int)tl.icon3.y, WHITE);
+
+					// Puzzle 1 text percent
+					Vector2 puz1percent = MeasureTextEx(ga.myFontSmall, floatToText(gA::puz[PUZ_1].getPercent()), fontSizeSmall, fontSpacing);
+					Vector2 puz1percentPos = TextCenterToRec(puz1percent, tl.icon1);
+					DrawTextEx(ga.myFontSmall, floatToText(gA::puz[PUZ_1].getPercent()), puz1percentPos, fontSizeSmall + 3, fontSpacing, BLACK);	// Shadow
+					DrawTextEx(ga.myFontSmall, floatToText(gA::puz[PUZ_1].getPercent()), puz1percentPos, fontSizeSmall, fontSpacing, WHITE);
+
+					// Puzzle 2 text percent
+					Vector2 puz2percent = MeasureTextEx(ga.myFontSmall, floatToText(gA::puz[PUZ_2].getPercent()), fontSizeSmall, fontSpacing);
+					Vector2 puz2percentPos = TextCenterToRec(puz2percent, tl.icon2);
+					DrawTextEx(ga.myFontSmall, floatToText(gA::puz[PUZ_2].getPercent()), puz2percentPos, fontSizeSmall + 3, fontSpacing, BLACK);	// Shadow
+					DrawTextEx(ga.myFontSmall, floatToText(gA::puz[PUZ_2].getPercent()), puz2percentPos, fontSizeSmall, fontSpacing, WHITE);
+
+					// Puzzle 3 text percent
+					Vector2 puz3percent = MeasureTextEx(ga.myFontSmall, floatToText(gA::puz[PUZ_3].getPercent()), fontSizeSmall, fontSpacing);
+					Vector2 puz3percentPos = TextCenterToRec(puz3percent, tl.icon3);
+					DrawTextEx(ga.myFontSmall, floatToText(gA::puz[PUZ_3].getPercent()), puz3percentPos, fontSizeSmall + 3, fontSpacing, BLACK);	// Shadow
+					DrawTextEx(ga.myFontSmall, floatToText(gA::puz[PUZ_3].getPercent()), puz3percentPos, fontSizeSmall, fontSpacing, WHITE);
+					
+					// Texts
+					DrawTexture(ga.txt_ChooseImage_texture, 
+								tl.bg_o.x + (tl.bg_o.width / 2) - (ga.txt_ChooseImage_texture.width / 2.0f), 
+								tl.bg_o.y - (ga.txt_ChooseImage_texture.height / 2.0f), 
+								BLACK);
+					DrawTexture(ga.puzImg1Txt_texture, 
+								(tl.bg_o.x + (tl.bg_o.width / 2.0f)) - (ga.puzImg1Txt_texture.width / 2.0f),
+								(tl.icon1.y + (tl.icon1.height / 2.0f)) - (ga.puzImg1Txt_texture.height / 2.0f), 
+								BLACK);
+					DrawTexture(ga.puzImg2Txt_texture, 
+								(tl.bg_o.x + (tl.bg_o.width / 2.0f)) - (ga.puzImg2Txt_texture.width / 2.0f),
+								(tl.icon2.y + (tl.icon2.height / 2.0f)) - (ga.puzImg2Txt_texture.height / 2.0f), 
+								BLACK);
+					DrawTexture(ga.puzImg3Txt_texture, 
+								(tl.bg_o.x + (tl.bg_o.width / 2.0f)) - (ga.puzImg3Txt_texture.width / 2.0f),
+								(tl.icon3.y + (tl.icon3.height / 2.0f)) - (ga.puzImg3Txt_texture.height / 2.0f), 
+								BLACK);
 				}
 
-				// Stars
-				if (gA::puz[PUZ_1].getStar() == 10) {
-					DrawTexturePro(ga.starTexture[gA::puz[PUZ_1].getStar()], src, dest1, org, rot, Fade(WHITE, gA::puz[PUZ_1].getOpacity()));
+				if (gc.currentPage == Pages::PAGE_2) {
+					Vector2 newLevelsMsg1 = MeasureTextEx(ga.myFontSmall, "New Levels on next update.", fontSizeSmall, fontSpacing);
+					Vector2 newLevelsMsg2 = MeasureTextEx(ga.myFontSmall, "Stay tuned!", fontSizeSmall, fontSpacing);
+					Vector2 newLevelMsg1Pos = { (GetScreenWidth() / 2.0f) - (newLevelsMsg1.x / 2.0f), (GetScreenHeight() / 2.0f) - newLevelsMsg1.y };
+					Vector2 newLevelMsg2Pos = { (GetScreenWidth() / 2.0f) - (newLevelsMsg2.x / 2.0f), (GetScreenHeight() / 2.0f) + newLevelsMsg2.y };
+					DrawTextEx(ga.myFontSmall, "New Levels on next update.", newLevelMsg1Pos, fontSizeSmall, fontSpacing, WHITE);
+					DrawTextEx(ga.myFontSmall, "Stay tuned!", newLevelMsg2Pos, fontSizeSmall, fontSpacing, WHITE);
 				}
-				else {
-					// Shadow
-					DrawTexture(ga.starTexture[gA::puz[PUZ_1].getStar()],
-						(int)(tl.bg_o.x + (tl.bg_o.width * 0.75f)),
-						(int)tl.icon1.y,
-						Fade(BLACK, 0.3f));
 
-					// Star
-					DrawTexture(ga.starTexture[gA::puz[PUZ_1].getStar()],
-						(int)(tl.bg_o.x + (tl.bg_o.width * 0.75f)),
-						(int)tl.icon1.y,
-						Fade(WHITE, gA::puz[PUZ_1].getOpacity()));
-				}
-				if (gA::puz[PUZ_2].getStar() == 10) {
-					DrawTexturePro(ga.starTexture[gA::puz[PUZ_2].getStar()], src, dest2, org, rot, Fade(WHITE, gA::puz[PUZ_2].getOpacity()));
-				}
-				else {
-					// Shadow
-					DrawTexture(ga.starTexture[gA::puz[PUZ_2].getStar()],
-						(int)(tl.bg_o.x + (tl.bg_o.width * 0.75f)),
-						(int)tl.icon2.y,
-						Fade(BLACK, 0.3f));
-
-					// Star
-					DrawTexture(ga.starTexture[gA::puz[PUZ_2].getStar()],
-						(int)(tl.bg_o.x + (tl.bg_o.width * 0.75f)),
-						(int)tl.icon2.y,
-						Fade(WHITE, gA::puz[PUZ_2].getOpacity()));
-				}
-				if (gA::puz[PUZ_3].getStar() == 10) {
-					DrawTexturePro(ga.starTexture[gA::puz[PUZ_3].getStar()], src, dest3, org, rot, Fade(WHITE, gA::puz[PUZ_3].getOpacity()));
-				}
-				else {
-					// Shadow
-					DrawTexture(ga.starTexture[gA::puz[PUZ_3].getStar()],
-						(int)(tl.bg_o.x + (tl.bg_o.width * 0.75f)),
-						(int)tl.icon3.y,
-						Fade(BLACK, 0.3f));
-
-					// Star
-					DrawTexture(ga.starTexture[gA::puz[PUZ_3].getStar()],
-						(int)(tl.bg_o.x + (tl.bg_o.width * 0.75f)),
-						(int)tl.icon3.y,
-						Fade(WHITE, gA::puz[PUZ_3].getOpacity()));
-				}
-				rot++;		// rotation
-				
-				// Icons
-				DrawTexture(ga.puzzleImage1Texture, (int)tl.icon1.x, (int)tl.icon1.y, WHITE);
-				DrawTexture(ga.puzzleImage2Texture, (int)tl.icon2.x, (int)tl.icon2.y, WHITE);
-				DrawTexture(ga.puzzleImage3Texture, (int)tl.icon3.x, (int)tl.icon3.y, WHITE);
-
-				// Puzzle 1 text percent
-				Vector2 puz1percent = MeasureTextEx(ga.myFontSmall, floatToText(gA::puz[PUZ_1].getPercent()), fontSizeSmall, fontSpacing);
-				Vector2 puz1percentPos = TextCenterToRec(puz1percent, tl.icon1);
-				DrawTextEx(ga.myFontSmall, floatToText(gA::puz[PUZ_1].getPercent()), puz1percentPos, fontSizeSmall + 3, fontSpacing, BLACK);	// Shadow
-				DrawTextEx(ga.myFontSmall, floatToText(gA::puz[PUZ_1].getPercent()), puz1percentPos, fontSizeSmall, fontSpacing, WHITE);
-
-				// Puzzle 2 text percent
-				Vector2 puz2percent = MeasureTextEx(ga.myFontSmall, floatToText(gA::puz[PUZ_2].getPercent()), fontSizeSmall, fontSpacing);
-				Vector2 puz2percentPos = TextCenterToRec(puz2percent, tl.icon2);
-				DrawTextEx(ga.myFontSmall, floatToText(gA::puz[PUZ_2].getPercent()), puz2percentPos, fontSizeSmall + 3, fontSpacing, BLACK);	// Shadow
-				DrawTextEx(ga.myFontSmall, floatToText(gA::puz[PUZ_2].getPercent()), puz2percentPos, fontSizeSmall, fontSpacing, WHITE);
-
-				// Puzzle 3 text percent
-				Vector2 puz3percent = MeasureTextEx(ga.myFontSmall, floatToText(gA::puz[PUZ_3].getPercent()), fontSizeSmall, fontSpacing);
-				Vector2 puz3percentPos = TextCenterToRec(puz3percent, tl.icon3);
-				DrawTextEx(ga.myFontSmall, floatToText(gA::puz[PUZ_3].getPercent()), puz3percentPos, fontSizeSmall + 3, fontSpacing, BLACK);	// Shadow
-				DrawTextEx(ga.myFontSmall, floatToText(gA::puz[PUZ_3].getPercent()), puz3percentPos, fontSizeSmall, fontSpacing, WHITE);
-				
-				// Texts
-				DrawTexture(ga.txt_ChooseImage_texture, 
-							tl.bg_o.x + (tl.bg_o.width / 2) - (ga.txt_ChooseImage_texture.width / 2.0f), 
-							tl.bg_o.y - (ga.txt_ChooseImage_texture.height / 2.0f), 
-							BLACK);
-				DrawTexture(ga.puzImg1Txt_texture, 
-							(tl.bg_o.x + (tl.bg_o.width / 2.0f)) - (ga.puzImg1Txt_texture.width / 2.0f),
-							(tl.icon1.y + (tl.icon1.height / 2.0f)) - (ga.puzImg1Txt_texture.height / 2.0f), 
-							BLACK);
-				DrawTexture(ga.puzImg2Txt_texture, 
-							(tl.bg_o.x + (tl.bg_o.width / 2.0f)) - (ga.puzImg2Txt_texture.width / 2.0f),
-							(tl.icon2.y + (tl.icon2.height / 2.0f)) - (ga.puzImg2Txt_texture.height / 2.0f), 
-							BLACK);
-				DrawTexture(ga.puzImg3Txt_texture, 
-							(tl.bg_o.x + (tl.bg_o.width / 2.0f)) - (ga.puzImg3Txt_texture.width / 2.0f),
-							(tl.icon3.y + (tl.icon3.height / 2.0f)) - (ga.puzImg3Txt_texture.height / 2.0f), 
-							BLACK);
 			} break;
 
 			case Scene::CROP_SLICE_IMAGE_SCENE: 

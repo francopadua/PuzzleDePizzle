@@ -46,6 +46,16 @@ void sceneFunctions()
 	if (gc.currentScene == Scene::CHOOSE_IMAGE_SCENE) {
 		// Scene Music
 		sceneMusic(ga.menuMusic);
+
+		// Scene 2 actions
+		if (gA::nextButton.isPressed()) {
+			sceneSound(ga.selectSound);
+			gc.currentPage = Pages::PAGE_2;
+		}
+		if (gA::prevButton.isPressed()) {
+			sceneSound(ga.selectSound);
+			gc.currentPage = Pages::PAGE_1;
+		}
 		
 		// Scene 2-1 switch
 		if (gA::backButton.isPressed()) {
