@@ -159,6 +159,7 @@
     <Image Include="Resources\Images\exit_button_up.png" />
     <Image Include="Resources\Images\folder_down.png" />
     <Image Include="Resources\Images\folder_up.png" />
+    <Image Include="Resources\Images\game_icon.ico" />
     <Image Include="Resources\Images\game_icon.png" />
     <Image Include="Resources\Images\Icons\icon1.png" />
     <Image Include="Resources\Images\Icons\icon2.png" />
@@ -210,6 +211,7 @@
     <Image Include="Resources\Images\wood_border.png" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="resource.h" />
     <ClInclude Include="src\animation.h" />
     <ClInclude Include="src\assets.h" />
     <ClInclude Include="src\Button.h" />
@@ -241,6 +243,9 @@
     <Media Include="Resources\Audio\sound1.mp3" />
     <Media Include="Resources\Audio\sound2.wav" />
     <Media Include="Resources\Audio\sound3.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="PuzzleDePizzle.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

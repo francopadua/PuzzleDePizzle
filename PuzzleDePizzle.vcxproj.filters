@@ -245,6 +245,9 @@
     <Image Include="Resources\Images\game_icon.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Resources\Images\game_icon.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\image_slice.h">
@@ -298,6 +301,9 @@
     <ClInclude Include="src\ResManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Font Include="Resources\Fonts\The Bomb Sound.ttf" />
@@ -316,5 +322,10 @@
     <Media Include="Resources\Audio\sound2.wav">
       <Filter>Resource Files</Filter>
     </Media>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="PuzzleDePizzle.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>
