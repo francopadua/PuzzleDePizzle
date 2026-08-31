@@ -13,6 +13,7 @@
 #include <string_view>
 #include <vector>
 #include <raylib.h>
+#include "Window/WmSz.h"
 
 // Temporary
 Vector2 myString(const std::string& str)
@@ -36,12 +37,15 @@ int main()
 	// Initialize window
 	SetConfigFlags(FLAG_VSYNC_HINT | FLAG_WINDOW_RESIZABLE);
 	InitWindow(screenWidth, screenHeight, "PuzzleDePizzle");
+
+#ifdef _WIN32 // If PLATFORM is Windows
+	WmSz::Init((HWND)GetWindowHandle());
 	Image windowIcon = LoadImage("Resources/Images/game_icon.png");
 	ImageFormat(&windowIcon, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8);
 	SetWindowIcon(windowIcon);
 	UnloadImage(windowIcon);
-	
 	SetWindowMinSize(screenWidth, screenHeight);
+#endif
 	//MaximizeWindow();
 	SetTargetFPS(60);
 	SetExitKey(KEY_NULL);
@@ -56,7 +60,7 @@ int main()
 	gA::LoadClassedAssets();
 	gc.fontScaled = getScaledFont(GetScreenWidth(), GetScreenHeight());
 
-	// FOR STAR 10 testing
+	// FOR STAR 10 testing (DON'T MIND THIS)
 	int rot = 0;
 	int txtrWidth = 0;
 	int txtrHeight = 0;
@@ -479,6 +483,9 @@ int main()
 
 	CloseAudioDevice();
 
+#ifdef _WIN32
+	WmSz::Exit();
+#endif
 	CloseWindow();
 
 	return 0;

@@ -75,6 +75,16 @@ static uint32_t CalculateChecksum(const std::vector<LevelResultData>& data)
     return hash;
 }
 
+const char* SaveSystem::GetSaveFile()
+{
+#if defined(_WIN32)
+    return m_fileName;
+#elif defined(PLATFORM_ANDROID)
+    return GetAndroidWritablePath() + m_fileName;
+#else
+    return m_fileName;
+#endif
+}
 
 // ============================================================
 // Save

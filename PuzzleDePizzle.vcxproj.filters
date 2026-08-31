@@ -310,9 +310,6 @@
     <Font Include="Resources\Font\The Bomb Sound.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <Media Include="Resources\Audio\music1.mp3" />
     <Media Include="Resources\Audio\music2.mp3" />
     <Media Include="Resources\Audio\sound1.mp3" />
@@ -327,5 +324,8 @@
     <ResourceCompile Include="PuzzleDePizzle.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>
